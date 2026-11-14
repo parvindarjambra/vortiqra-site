@@ -9,110 +9,111 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#050814;--panel:rgba(13,22,48,.78);--panel2:rgba(10,18,40,.92);--cyan:#00F0FF;--amber:#FFB800;--green:#2EEA8B;--red:#FF3B5C;--text:#EAF6FF;--muted:#9AB3CC;--line:rgba(0,240,255,.22);--radius:14px}
-*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:92px}body{margin:0;background-color:var(--bg);background-image:linear-gradient(rgba(0,240,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,.05) 1px,transparent 1px);background-size:44px 44px;color:var(--text);font-family:Inter,system-ui,sans-serif;overflow-x:hidden}
+:root{--bg:#070B1E;--panel:#0E1533;--panel2:#131C44;--blue:#2A6DF4;--sky:#9FDCFF;--amber:#FFD25E;--green:#2ECC71;--red:#FC3D21;--text:#E8ECFF;--muted:#9FB0D8;--line:#22306B;--radius:16px}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:92px}body{margin:0;background:radial-gradient(1200px 700px at 70% -10%,#101A45 0%,var(--bg) 55%);color:var(--text);font-family:Inter,system-ui,sans-serif;overflow-x:hidden}
 canvas#stars{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
 .orb{position:fixed;border-radius:50%;filter:blur(70px);opacity:.28;z-index:0;pointer-events:none}.orb1{width:420px;height:420px;background:#003cff;top:-120px;right:-80px}.orb2{width:360px;height:360px;background:#002a5c;bottom:-100px;left:-80px}
-a{color:var(--cyan)}button,input,select{font:inherit}button{min-height:44px;cursor:pointer}
-.wrap{position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:8px 12px;min-height:100vh;display:flex;flex-direction:column}
-.hud{position:sticky;top:8px;z-index:30;background:#070B19;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line);border-bottom:2px solid rgba(0,240,255,.45);border-radius:12px;padding:6px 10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;box-shadow:0 12px 34px rgba(0,0,0,.55),0 0 30px rgba(0,240,255,.10)}
+a{color:var(--sky)}button,input,select{font:inherit}button{min-height:44px;cursor:pointer}
+.wrap{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:8px 16px;min-height:100vh;display:flex;flex-direction:column}
+.hud{position:sticky;top:8px;z-index:30;background:#0A1230;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line);border-bottom:2px solid rgba(42,109,244,.45);border-radius:12px;padding:8px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;box-shadow:0 12px 34px rgba(0,0,0,.55),0 0 30px rgba(42,109,244,.10)}
 .brand{display:flex;gap:8px;align-items:center}.logo{width:32px;height:32px;border-radius:9px;object-fit:cover}
-.brand h1{font-family:Orbitron;font-size:15px;letter-spacing:.08em;margin:0;line-height:1}.brand p{margin:2px 0 0;color:var(--cyan);font-size:10px;letter-spacing:.14em;font-weight:700}
-.hudstats{display:flex;flex-wrap:wrap;gap:6px}.stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:999px;padding:4px 9px;font-size:12px;font-weight:600;white-space:nowrap}.stat b{color:var(--cyan)}
-.iconbtn{border:1px solid var(--line);background:rgba(0,240,255,.08);color:var(--text);border-radius:999px;padding:7px 12px;font-weight:700;font-size:13px}
-.hero{padding:10px 0 2px;display:grid;grid-template-columns:1.25fr .75fr;gap:10px;align-items:start}
+.brand h1{font-family:Orbitron;font-size:15px;letter-spacing:.08em;margin:0;line-height:1}.brand p{margin:2px 0 0;color:var(--sky);font-size:10px;letter-spacing:.14em;font-weight:700}
+.hudstats{display:flex;flex-wrap:wrap;gap:8px}.stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600;white-space:nowrap}.stat b{color:var(--sky)}
+.iconbtn{border:1px solid var(--line);background:rgba(42,109,244,.08);color:var(--text);border-radius:999px;padding:8px 16px;font-weight:700;font-size:13px}
+.hero{padding:8px 0;display:grid;grid-template-columns:1.25fr .75fr;gap:16px;align-items:start}
 @media(max-width:820px){.hero{grid-template-columns:1fr}}
-.hero h2{font-family:Orbitron;font-size:clamp(22px,4.5vw,34px);line-height:1.02;margin:6px 0 6px}.hero h2 span{color:var(--cyan)}.hero p{color:var(--muted);line-height:1.5;font-size:14px;max-width:640px}
-.pill{display:inline-flex;gap:6px;align-items:center;border:1px solid var(--line);color:var(--cyan);border-radius:999px;padding:6px 11px;font-size:12px;letter-spacing:.12em;font-weight:700}
-.howto{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.howto span{border:1px solid var(--line);background:rgba(0,240,255,.06);border-radius:10px;padding:7px 10px;font-size:13px;font-weight:600;color:var(--text)}.howto b{color:var(--cyan);font-family:Orbitron;margin-right:4px}
-.glass{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);backdrop-filter:blur(12px);padding:11px 12px;box-shadow:0 10px 40px rgba(0,0,0,.35)}
-.glass h3{font-family:Orbitron;letter-spacing:.04em;margin:0 0 4px;font-size:15px}.glass p{color:var(--muted);line-height:1.5;margin:0 0 6px}
-.meter{height:10px;background:rgba(255,255,255,.1);border-radius:999px;overflow:hidden}.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));transition:width .4s}
-.menu{position:absolute;top:calc(100% + 8px);right:10px;z-index:40;background:#0A1228;border:1px solid var(--line);border-radius:14px;padding:6px;min-width:230px;box-shadow:0 16px 40px rgba(0,0,0,.6);display:none}.menu.open{display:block}.menu button{display:block;width:100%;text-align:left;background:none;border:none;border-radius:10px;color:var(--text);padding:11px 12px;font-weight:700}.menu button:hover{background:rgba(0,240,255,.1)}.menu button.active{background:rgba(0,240,255,.16);color:var(--cyan)}
+.hero h2{font-family:Orbitron;font-size:clamp(28px,4.5vw,36px);line-height:1.02;margin:6px 0 6px}.hero h2 span{color:var(--sky)}.hero p{color:var(--muted);line-height:1.5;font-size:14px;max-width:640px}
+.heroArt2{display:block;width:min(230px,100%);height:auto;margin-top:12px}
+.pill{display:inline-flex;gap:6px;align-items:center;border:1px solid var(--line);color:var(--sky);border-radius:999px;padding:8px 12px;font-size:12px;letter-spacing:.12em;font-weight:700}
+.howto{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.howto span{border:1px solid var(--line);background:rgba(42,109,244,.06);border-radius:10px;padding:8px 12px;font-size:13px;font-weight:600;color:var(--text)}.howto b{color:var(--sky);font-family:Orbitron;margin-right:4px}
+.glass{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);backdrop-filter:blur(12px);padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.glass h3{font-family:Orbitron;letter-spacing:.04em;margin:0 0 8px;font-size:16px}.glass p{color:var(--muted);line-height:1.5;margin:0 0 6px}
+.meter{height:10px;background:rgba(255,255,255,.1);border-radius:999px;overflow:hidden}.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--green));transition:width .4s}
+.menu{position:absolute;top:calc(100% + 8px);right:10px;z-index:40;background:#0E1533;border:1px solid var(--line);border-radius:16px;padding:8px;min-width:230px;box-shadow:0 16px 40px rgba(0,0,0,.6);display:none}.menu.open{display:block}.menu button{display:block;width:100%;text-align:left;background:none;border:none;border-radius:10px;color:var(--text);padding:12px 16px;font-weight:700}.menu button:hover{background:rgba(42,109,244,.1)}.menu button.active{background:rgba(42,109,244,.16);color:var(--sky)}
 .section{display:none}.section.active{display:block;animation:fade .35s ease}@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:820px){.grid2{grid-template-columns:1fr}}
-.grid4{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:900px){.grid4{grid-template-columns:1fr}}
-label{font-weight:700;font-size:13px;letter-spacing:.02em}input[type=text]{width:100%;background:#0a1430;border:1px solid var(--line);color:#fff;border-radius:12px;padding:11px 12px;margin-top:6px}
-.choices{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.choice{border:2px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);border-radius:14px;padding:8px 10px;min-width:74px;text-align:center;color:#fff}.choice.sel{border-color:var(--cyan);background:rgba(0,240,255,.14);box-shadow:0 0 18px rgba(0,240,255,.25)}.choice .big{font-size:24px;display:block}.choice small{color:var(--muted);font-weight:700}
-.btn{background:linear-gradient(135deg,var(--cyan),#0099ff);color:#00131a;border:none;border-radius:999px;padding:11px 18px;font-weight:800}.btn.amber{background:linear-gradient(135deg,var(--amber),#ff7a00);color:#1a1000}.btn.ghost{background:rgba(255,255,255,.07);color:#fff;border:1px solid var(--line)}.btn:disabled{opacity:.45;cursor:not-allowed}
-.trans{font-family:ui-monospace,Menlo,monospace;background:#020617;border:1px solid var(--line);border-radius:14px;padding:12px;line-height:1.7;min-height:110px;color:#bffcff;white-space:pre-wrap}
-input[type=range]{width:100%;accent-color:var(--cyan);height:36px}
-.sliderRow{margin:8px 0}.sliderRow .top{display:flex;justify-content:space-between;font-size:14px}.sliderRow .top b{color:var(--cyan)}
-.status{border-radius:12px;padding:8px 10px;font-weight:700;line-height:1.5;margin-top:8px}.ok{background:rgba(46,234,139,.14);border:1px solid rgba(46,234,139,.4);color:#bfffe0}.warn{background:rgba(255,184,0,.14);border:1px solid rgba(255,184,0,.45);color:#ffe9a8}.bad{background:rgba(255,59,92,.14);border:1px solid rgba(255,59,92,.45);color:#ffc2cd}
-.crisisBtn{width:100%;font-family:Orbitron;font-size:18px;letter-spacing:.06em;padding:12px}
-.flashgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}@media(max-width:820px){.flashgrid{grid-template-columns:1fr}}
-.flash{height:190px;perspective:800px;cursor:pointer}.flashInner{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}.flash.flip .flashInner{transform:rotateY(180deg)}.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;padding:12px;border:1px solid var(--line);background:var(--panel2);display:flex;flex-direction:column;justify-content:center}.face.back{transform:rotateY(180deg);background:#0b2a3a}.face h4{font-family:Orbitron;margin:0 0 8px}.face p{color:var(--muted);line-height:1.55;margin:0;font-size:14px}
-.quizQ{border-top:1px solid rgba(255,255,255,.1);padding:10px 0}.quizQ h4{margin:0 0 10px}.opts{display:grid;gap:8px}.opts button{text-align:left;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#fff;border-radius:12px;padding:10px 12px}.opts button.correct{border-color:var(--green);background:rgba(46,234,139,.15)}.opts button.wrong{border-color:var(--red);background:rgba(255,59,92,.15)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:820px){.grid2{grid-template-columns:1fr}}
+.grid4{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:900px){.grid4{grid-template-columns:1fr}}
+label{font-weight:700;font-size:13px;letter-spacing:.02em}input[type=text]{width:100%;background:#0B1230;border:1px solid var(--line);color:#fff;border-radius:12px;padding:12px 16px;margin-top:6px}
+.choices{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.choice{border:2px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);border-radius:12px;padding:8px 12px;min-width:74px;text-align:center;color:#fff}.choice.sel{border-color:var(--blue);background:rgba(42,109,244,.14);box-shadow:0 0 18px rgba(42,109,244,.25)}.choice .big{font-size:24px;display:block}.choice small{color:var(--muted);font-weight:700}
+.btn{background:linear-gradient(135deg,var(--blue),#1B4FD8);color:#fff;border:none;border-radius:999px;padding:12px 20px;font-weight:800}.btn.amber{background:linear-gradient(135deg,var(--amber),#E8A020);color:#1a1000}.btn.ghost{background:rgba(255,255,255,.07);color:#fff;border:1px solid var(--line)}.btn:disabled{opacity:.45;cursor:not-allowed}
+.trans{font-family:ui-monospace,Menlo,monospace;background:#070B1E;border:1px solid var(--line);border-radius:12px;padding:12px;line-height:1.7;min-height:110px;color:#C7DBFF;white-space:pre-wrap}
+input[type=range]{width:100%;accent-color:var(--blue);height:36px}
+.sliderRow{margin:8px 0}.sliderRow .top{display:flex;justify-content:space-between;font-size:14px}.sliderRow .top b{color:var(--sky)}
+.status{border-radius:12px;padding:8px 12px;font-weight:700;line-height:1.5;margin-top:8px}.ok{background:rgba(46,204,113,.14);border:1px solid rgba(46,204,113,.4);color:#bfffe0}.warn{background:rgba(255,210,94,.14);border:1px solid rgba(255,210,94,.45);color:#ffe9a8}.bad{background:rgba(255,61,33,.14);border:1px solid rgba(255,61,33,.45);color:#ffc2cd}
+.crisisBtn{width:100%;font-family:Orbitron;font-size:20px;letter-spacing:.06em;padding:12px}
+.flashgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}@media(max-width:820px){.flashgrid{grid-template-columns:1fr}}
+.flash{height:190px;perspective:800px;cursor:pointer}.flashInner{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}.flash.flip .flashInner{transform:rotateY(180deg)}.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;padding:12px;border:1px solid var(--line);background:var(--panel2);display:flex;flex-direction:column;justify-content:center}.face.back{transform:rotateY(180deg);background:#12295E}.face h4{font-family:Orbitron;margin:0 0 8px}.face p{color:var(--muted);line-height:1.55;margin:0;font-size:14px}
+.quizQ{border-top:1px solid rgba(255,255,255,.1);padding:16px 0}.quizQ h4{margin:0 0 10px}.opts{display:grid;gap:8px}.opts button{text-align:left;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#fff;border-radius:12px;padding:12px 16px}.opts button.correct{border-color:var(--green);background:rgba(46,204,113,.15)}.opts button.wrong{border-color:var(--red);background:rgba(255,61,33,.15)}
 .cert{ background:linear-gradient(135deg,#ffffff,#e8f7ff);color:#07122e;border-radius:8px;padding:16px;text-align:center;border:8px double #0b3d91; } .cert h2{font-family:Orbitron;color:#0b3d91;margin:6px 0}.cert .name{font-family:Orbitron;font-size:clamp(24px,5vw,38px);color:#001a4d;border-bottom:2px solid #0b3d91;display:inline-block;padding:0 18px 6px}
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:50;background:#0b1e3d;border:1px solid var(--cyan);color:#fff;padding:12px 18px;border-radius:999px;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,.5);display:none;max-width:92vw;text-align:center}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:50;background:#12295E;border:1px solid var(--blue);color:#fff;padding:12px 20px;border-radius:999px;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,.5);display:none;max-width:92vw;text-align:center}
 .modal{position:fixed;inset:0;z-index:60;background:rgba(2,6,20,.8);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:16px}
 .modal.open{display:flex}
-.modalCard{background:var(--panel2);border:1px solid var(--line);border-radius:20px;max-width:520px;width:100%;max-height:88vh;overflow-y:auto;padding:16px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.modalCard{background:var(--panel2);border:1px solid var(--line);border-radius:16px;max-width:520px;width:100%;max-height:88vh;overflow-y:auto;padding:16px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
 .modalCard h3{font-family:Orbitron;margin:0 0 6px;font-size:19px}
 .modalCard p{color:var(--muted);line-height:1.6}
-.teamgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}@media(max-width:900px){.teamgrid{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.teamgrid{grid-template-columns:1fr}}
-.member{text-align:center}.member .avatar{font-size:36px;line-height:1}.member h4{font-family:Orbitron;margin:8px 0 2px;font-size:16px}.member .role{color:var(--cyan);font-weight:800;font-size:13px;letter-spacing:.04em}.member .country{color:var(--muted);font-size:13px;margin:4px 0 0}
-.qaRow{display:flex;gap:10px;align-items:flex-start;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:10px 12px;margin:8px 0;cursor:pointer;width:100%;color:var(--text)}
+.teamgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}@media(max-width:900px){.teamgrid{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.teamgrid{grid-template-columns:1fr}}
+.member{text-align:center}.member .avatar{font-size:36px;line-height:1}.member h4{font-family:Orbitron;margin:8px 0 2px;font-size:16px}.member .role{color:var(--sky);font-weight:800;font-size:13px;letter-spacing:.04em}.member .country{color:var(--muted);font-size:13px;margin:4px 0 0}
+.qaRow{display:flex;gap:10px;align-items:flex-start;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 16px;margin:8px 0;cursor:pointer;width:100%;color:var(--text)}
 .qaRow input{width:22px;height:22px;accent-color:var(--green);flex:none;margin-top:2px;cursor:pointer}
-.qaRow.done{border-color:rgba(46,234,139,.5);background:rgba(46,234,139,.1)}
+.qaRow.done{border-color:rgba(46,204,113,.5);background:rgba(46,204,113,.1)}
 .qaRow b{display:block;font-size:15px}.qaRow small{color:var(--muted);line-height:1.45;display:block;margin-top:2px}
 .stat{max-width:92vw;overflow:hidden;text-overflow:ellipsis}
 .face{overflow-y:auto}.face.back{justify-content:flex-start}
 .flash{height:170px}
 @media(max-width:600px){#crisisCards{grid-template-columns:1fr!important}.flash{height:200px}.brand h1{font-size:15px}.brand p{display:none}.cert{padding:16px 12px}.modalCard{padding:16px}}
 @media(max-width:400px){.hudstats .stat{font-size:12px;padding:6px 9px}}
-footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;color:var(--muted);text-align:center;line-height:1.6;font-size:14px}
+footer{border-top:1px solid rgba(255,255,255,.1);margin-top:16px;padding:16px 0;color:var(--muted);text-align:center;line-height:1.6;font-size:14px}
 /* === PRO SCI-FI POLISH: SVG icon system, telemetry corners, hover motion === */
 .ic{width:1.15em;height:1.15em;flex:none;vertical-align:-.22em;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .glass{position:relative;transition:border-color .25s ease,box-shadow .25s ease}
-.glass::before,.glass::after{content:"";position:absolute;width:15px;height:15px;border:0 solid rgba(0,240,255,.55);pointer-events:none;z-index:1}
+.glass::before,.glass::after{content:"";position:absolute;width:15px;height:15px;border:0 solid rgba(42,109,244,.55);pointer-events:none;z-index:1}
 .glass::before{top:6px;left:6px;border-top-width:2px;border-left-width:2px;border-top-left-radius:5px}
 .glass::after{bottom:6px;right:6px;border-bottom-width:2px;border-right-width:2px;border-bottom-right-radius:5px}
-.glass:hover{border-color:rgba(0,240,255,.5);box-shadow:0 14px 44px rgba(0,0,0,.5),0 0 22px rgba(0,240,255,.09)}
+.glass:hover{border-color:rgba(42,109,244,.5);box-shadow:0 14px 44px rgba(0,0,0,.5),0 0 22px rgba(42,109,244,.09)}
 .btn,.iconbtn,.choice,.menu button,.qaRow{transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background .18s ease,color .18s ease}
-.btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,240,255,.28)}
-.btn.amber:hover{box-shadow:0 8px 24px rgba(255,184,0,.32)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(42,109,244,.28)}
+.btn.amber:hover{box-shadow:0 8px 24px rgba(255,210,94,.32)}
 
-.btn.ghost:hover{border-color:var(--cyan);box-shadow:0 8px 24px rgba(0,240,255,.16)}
+.btn.ghost:hover{border-color:var(--blue);box-shadow:0 8px 24px rgba(42,109,244,.16)}
 .btn:active,.iconbtn:active{transform:translateY(0) scale(.98)}
 .btn:disabled:hover{transform:none;box-shadow:none}
-.iconbtn:hover{background:rgba(0,240,255,.18);border-color:var(--cyan)}
-.choice:hover{border-color:rgba(0,240,255,.65);transform:translateY(-2px)}
-.choice .big{display:block;color:var(--cyan)}
+.iconbtn:hover{background:rgba(42,109,244,.18);border-color:var(--blue)}
+.choice:hover{border-color:rgba(42,109,244,.65);transform:translateY(-2px)}
+.choice .big{display:block;color:var(--sky)}
 .choice .big svg{width:30px;height:30px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 
 .section{scroll-margin-top:92px}
-.hud .stat .ic{color:var(--cyan)}
-.member .avatar{color:var(--cyan)}
+.hud .stat .ic{color:var(--sky)}
+.member .avatar{color:var(--blue)}
 .member .avatar svg{width:38px;height:38px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .certRocket{color:#0b3d91}
 .certRocket svg{width:40px;height:40px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 #plantEmoji svg{width:52px;height:52px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.qaRow:hover{border-color:rgba(0,240,255,.45)}
+.qaRow:hover{border-color:rgba(42,109,244,.45)}
 .destWrap{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
-.destCard{flex:1 1 260px;text-align:left;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.12);border-radius:16px;padding:10px;color:var(--text);cursor:pointer;transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease,background .2s ease}
-.destCard:hover{transform:translateY(-2px);border-color:rgba(0,240,255,.55)}
-.destCard.sel{border-color:var(--cyan);background:rgba(0,240,255,.10);box-shadow:0 0 22px rgba(0,240,255,.18)}
-.destCard h4{font-family:Orbitron;margin:6px 0 4px;font-size:15px;letter-spacing:.04em;line-height:1.35}
+.destCard{flex:1 1 260px;text-align:left;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.12);border-radius:16px;padding:16px;color:var(--text);cursor:pointer;transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease,background .2s ease}
+.destCard:hover{transform:translateY(-2px);border-color:rgba(42,109,244,.55)}
+.destCard.sel{border-color:var(--blue);background:rgba(42,109,244,.10);box-shadow:0 0 22px rgba(42,109,244,.18)}
+.destCard h4{font-family:Orbitron;margin:8px 0 4px;font-size:16px;letter-spacing:.04em;line-height:1.35}
 .destCard p{color:var(--muted);line-height:1.5;margin:0;font-size:14px}
-.destCard .dic{color:var(--cyan);display:block}
-.destCard.sel .dic{color:var(--cyan)}
-.destCard .dic svg{width:34px;height:34px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.destCard .dic{color:var(--blue);display:block}
+.destCard.sel .dic{color:var(--blue)}
+.destCard .dic svg{width:40px;height:40px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 #decOpts button:disabled{opacity:.55;cursor:default;transform:none}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
 @media print{body{background:#fff}canvas,.orb,.hud,.menu,.noprint,footer{display:none!important}.section{display:none!important}#sec-cert{display:block!important}.wrap{max-width:100%}}
 /* === VISUAL UPGRADE 2026-11-14: animations + SVG art (inline, self-contained) === */
-@keyframes hudPulse{0%,100%{box-shadow:0 0 0 rgba(0,240,255,0)}50%{box-shadow:0 0 14px rgba(0,240,255,.28)}}
+@keyframes hudPulse{0%,100%{box-shadow:0 0 0 rgba(42,109,244,0)}50%{box-shadow:0 0 14px rgba(42,109,244,.28)}}
 .hud .stat{animation:hudPulse 3.6s ease-in-out infinite}
 .hud .stat:nth-child(2){animation-delay:.6s}.hud .stat:nth-child(3){animation-delay:1.2s}.hud .stat:nth-child(4){animation-delay:1.8s}.hud .stat:nth-child(5){animation-delay:2.4s}
-@keyframes xpPop{0%{transform:scale(1)}35%{transform:scale(1.18);background:rgba(0,240,255,.25);border-color:var(--cyan)}100%{transform:scale(1)}}
+@keyframes xpPop{0%{transform:scale(1)}35%{transform:scale(1.18);background:rgba(42,109,244,.25);border-color:var(--blue)}100%{transform:scale(1)}}
 .stat.xpPop{animation:xpPop .5s ease}
 .meter{position:relative}
 .meter i{transition:width .6s cubic-bezier(.22,1,.36,1)}
 .meter::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);transform:translateX(-100%);animation:shimmer 3.2s ease-in-out infinite;pointer-events:none}
 @keyframes shimmer{0%,55%{transform:translateX(-100%)}90%,100%{transform:translateX(100%)}}
 .menu button:active,.destCard:active,.choice:active,.opts button:active{transform:scale(.97)}
-.navlinks{display:none;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;margin:8px 0 2px}.navlinks a{color:#EAF6FF;text-decoration:none;font-weight:700;font-size:13px;padding:7px 14px;border-radius:999px;border:1px solid rgba(0,240,255,.55);background:rgba(0,240,255,.12);box-shadow:0 2px 10px rgba(0,240,255,.12);white-space:nowrap}.navlinks a:hover{background:rgba(0,240,255,.22);border-color:var(--cyan)}.navlinks a.active{background:linear-gradient(135deg,#00F0FF,#0066FF);color:#00131a;border-color:transparent}
+.navlinks{display:none;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;margin:8px 0}.navlinks a{color:#E8ECFF;text-decoration:none;font-weight:700;font-size:13px;padding:8px 16px;border-radius:999px;border:1px solid rgba(42,109,244,.55);background:rgba(42,109,244,.12);box-shadow:0 2px 10px rgba(42,109,244,.12);white-space:nowrap}.navlinks a:hover{background:rgba(42,109,244,.22);border-color:var(--blue)}.navlinks a.active{background:linear-gradient(135deg,#2A6DF4,#1B4FD8);color:#ffffff;border-color:transparent}
 @media(min-width:901px){.navlinks{display:flex}#menuBtn{display:none}}
 @media(max-width:900px){.navlinks{display:none}}
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
@@ -125,23 +126,26 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;
 .twinkle{animation:twinkle 2.4s ease-in-out infinite}
 .twinkle.d2{animation-delay:.8s}.twinkle.d3{animation-delay:1.5s}
 .radarRow{display:flex;gap:10px;align-items:center}
-.radar{width:74px;height:74px;flex:none;border-radius:50%;border:1px solid rgba(0,240,255,.5);background:radial-gradient(circle,rgba(0,240,255,.12),rgba(0,240,255,.02) 70%);position:relative;overflow:hidden}
-.radar::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(0,240,255,.55),transparent 22%);animation:spinSlow 3s linear infinite}
-.radar::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,transparent 58%,rgba(0,240,255,.25) 59%,transparent 60%),radial-gradient(circle,transparent 28%,rgba(0,240,255,.25) 29%,transparent 30%)}
+.radar{width:74px;height:74px;flex:none;border-radius:50%;border:1px solid rgba(42,109,244,.5);background:radial-gradient(circle,rgba(42,109,244,.12),rgba(42,109,244,.02) 70%);position:relative;overflow:hidden}
+.radar::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(42,109,244,.55),transparent 22%);animation:spinSlow 3s linear infinite}
+.radar::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,transparent 58%,rgba(42,109,244,.25) 59%,transparent 60%),radial-gradient(circle,transparent 28%,rgba(42,109,244,.25) 29%,transparent 30%)}
 .radar .blip{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px var(--amber);animation:twinkle 1.8s ease-in-out infinite}
 @media(max-width:560px){.radar{width:58px;height:58px}}
 @keyframes ping{0%{transform:scale(.55);opacity:.9}100%{transform:scale(1.6);opacity:0}}
 .ping{transform-box:fill-box;transform-origin:center;animation:ping 2.2s ease-out infinite}
 .ping.d2{animation-delay:.7s}.ping.d3{animation-delay:1.4s}
 .cert{position:relative}
-.cert::before{content:"";position:absolute;inset:-5px;border-radius:12px;background:linear-gradient(120deg,#00F0FF,#0066FF,#00F0FF,#0b3d91);background-size:300% 300%;animation:borderFlow 7s ease infinite;z-index:-1}
+.cert::before{content:"";position:absolute;inset:-5px;border-radius:12px;background:linear-gradient(120deg,#2A6DF4,#1B4FD8,#2A6DF4,#0b3d91);background-size:300% 300%;animation:borderFlow 7s ease infinite;z-index:-1}
 @keyframes borderFlow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 .divider{display:flex;justify-content:center;margin:auto 0 2px}
 .divider svg{width:min(420px,80%);height:18px}
 .btn.locked{opacity:.7}
+.btn:hover{filter:brightness(1.15)}
+.btn:active,.iconbtn:active{transform:scale(.97)}
+:focus-visible{outline:2px solid var(--sky);outline-offset:2px}
 /* === PHONE RESPONSIVE 2026-11-14: compact tiles, compressed HUD, tight cards === */
 @media(max-width:600px){
-.wrap{padding:6px 10px}
+.wrap{padding:8px}
 .hud{padding:5px 8px;gap:5px}
 .brand .logo{width:26px;height:26px;border-radius:7px;font-size:13px}
 .brand h1{font-size:13px}
@@ -150,7 +154,7 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;
 .iconbtn{padding:6px 9px;font-size:12px;min-height:36px}
 .hero{gap:8px;padding:8px 0 2px}
 .hero p{font-size:13px}
-.glass{padding:9px 10px}
+.glass{padding:8px}
 .glass h3{font-size:14px}
 .glass::before,.glass::after{width:11px;height:11px}
 .howto span{padding:6px 8px;font-size:12px}
@@ -159,7 +163,7 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;
 .choice .big{line-height:1}
 .choice .big svg{width:22px;height:22px}
 .choice small{font-size:10px;line-height:1.25;display:block}
-.destCard{padding:9px}
+.destCard{padding:8px}
 .destCard .dic svg{width:28px;height:28px}
 .destCard h4{font-size:14px}
 .teamgrid{grid-template-columns:repeat(2,1fr)}
@@ -210,6 +214,7 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="btn" data-goto="briefing">Start Briefing</button><button class="btn amber" data-goto="command">Open Command Center</button><button class="btn ghost" data-goto="academy">Open NASA Academy</button></div>
       <div class="howto"><span><b>1</b> Pick Moon or Mars</span><span><b>2</b> Run the 4 systems</span><span><b>3</b> Pass the quiz — get your certificate</span></div>
       <p style="font-size:13px">No sign-up • Progress saves on this device</p>
+      <svg class="heroArt2" viewBox="0 0 220 96" fill="none" aria-hidden="true"><circle cx="52" cy="48" r="22" fill="#2A6DF4"/><path d="M36 42a22 22 0 0 1 32-6" stroke="#9FDCFF" stroke-width="3" stroke-linecap="round"/><ellipse cx="52" cy="48" rx="32" ry="10" transform="rotate(-18 52 48)" stroke="#FFD25E" stroke-width="2"/><circle cx="104" cy="22" r="2" fill="#FFD25E"/><circle cx="126" cy="60" r="1.6" fill="#E8ECFF"/><circle cx="196" cy="18" r="2" fill="#E8ECFF"/><circle cx="186" cy="70" r="1.5" fill="#FFD25E"/><path d="M160 14c6 8 6 20 0 30-6-10-6-22 0-30z" fill="#E8ECFF"/><circle cx="160" cy="26" r="3.5" fill="#2A6DF4"/><path d="M154 40l-6 10 9-4M166 40l6 10-9-4" fill="#FC3D21"/><path d="M160 46c3 5 3 9 0 13-3-4-3-8 0-13z" fill="#FFD25E"/></svg>
     </div>
     <div class="glass">
       <h3><svg class="ic" viewBox="0 0 24 24"><rect x="10" y="10" width="4.5" height="4.5" rx="1"/><path d="M10 11L3.5 8.5l1.8-3.4L11 7.5M14 13l6.5 2.5-1.8 3.4L13 16.5"/><path d="M12.2 14.5l-.7 3"/></svg> OUTPOST STATUS</h3>
@@ -224,16 +229,16 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;
     </div>
   </div>
 
-  <div class="divider" aria-hidden="true"><svg viewBox="0 0 420 18" fill="none" stroke-linecap="round"><path d="M4 9 H186 M234 9 H416" stroke="rgba(0,240,255,.4)" stroke-width="1.2"/><circle cx="210" cy="9" r="4.5" stroke="#FFB800" stroke-width="1.5"/><ellipse cx="210" cy="9" rx="10" ry="3.4" transform="rotate(-18 210 9)" stroke="#00F0FF" stroke-width="1.2"/></svg></div>
+  <div class="divider" aria-hidden="true"><svg viewBox="0 0 420 18" fill="none" stroke-linecap="round"><path d="M4 9 H186 M234 9 H416" stroke="rgba(42,109,244,.4)" stroke-width="1.2"/><circle cx="210" cy="9" r="4.5" stroke="#FFD25E" stroke-width="1.5"/><ellipse cx="210" cy="9" rx="10" ry="3.4" transform="rotate(-18 210 9)" stroke="#2A6DF4" stroke-width="1.2"/></svg></div>
 
   <!-- MODULE 1 -->
   <section class="section active" id="sec-briefing">
-    <div class="glass" style="margin-bottom:10px">
+    <div class="glass" style="margin-bottom:16px">
       <h3><svg class="ic" viewBox="0 0 24 24"><path d="M12 2.8c2.7 2.2 4.3 5.7 4.3 9.7L12 16.8l-4.3-4.3c0-4 1.6-7.5 4.3-9.7z"/><circle cx="12" cy="9.3" r="1.7"/><path d="M7.7 13.8L4.5 19l3.2-.3M16.3 13.8l3.2 5.2-3.2-.3M10.2 19.6c.5.9 1.1 1.5 1.8 1.9.7-.4 1.3-1 1.8-1.9"/></svg> 1. PICK YOUR DESTINATION</h3>
       <p>Moon or Mars? Your choice changes the briefing and events. Switch any time.</p>
       <div class="destWrap">
-        <button class="destCard sel" data-dest="moon"><span class="dic"><svg viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg></span><h4>MOON — ARTEMIS OUTPOST</h4><p>14-day nights • +120°C to −130°C • 384,400 km away.</p></button>
-        <button class="destCard" data-dest="mars"><span class="dic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6.5"/><path d="M8 9.8c1.6 1.2 3.4.4 4.6 1.8M15.8 14.2c-1.4 1.1-3.2.5-4.3 1.7"/></svg></span><h4>MARS — FRONTIER BASE</h4><p>Dust storms • 22-min comms delay • 225M km away.</p></button>
+        <button class="destCard sel" data-dest="moon"><span class="dic"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="#E8ECFF" stroke="none"/><circle cx="17" cy="18" r="4" fill="#C3CDE8" stroke="none"/><circle cx="30" cy="27" r="5" fill="#C3CDE8" stroke="none"/><circle cx="28" cy="14" r="2.5" fill="#C3CDE8" stroke="none"/><circle cx="18" cy="31" r="2" fill="#C3CDE8" stroke="none"/><circle cx="24" cy="24" r="20" fill="none" stroke="#9FB0D8" stroke-width="1.5"/></svg></span><h4>MOON — ARTEMIS OUTPOST</h4><p>14-day nights • +120°C to −130°C • 384,400 km away.</p></button>
+        <button class="destCard" data-dest="mars"><span class="dic"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="#D95D2B" stroke="none"/><ellipse cx="18" cy="20" rx="7" ry="4" fill="#B84A1F" stroke="none"/><ellipse cx="30" cy="30" rx="6" ry="3.5" fill="#B84A1F" stroke="none"/><ellipse cx="32" cy="15" rx="4" ry="2.5" fill="#B84A1F" stroke="none"/><ellipse cx="24" cy="6.5" rx="8" ry="3" fill="#F5F0E6" stroke="none"/><circle cx="24" cy="24" r="20" fill="none" stroke="#8F2F0A" stroke-width="1.5"/></svg></span><h4>MARS — FRONTIER BASE</h4><p>Dust storms • 22-min comms delay • 225M km away.</p></button>
       </div>
     </div>
     <div class="grid2">
@@ -262,7 +267,7 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;
         <h3><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.6"/><path d="M8.6 15.4a4.8 4.8 0 0 1 0-6.8M15.4 8.6a4.8 4.8 0 0 1 0 6.8M6.2 17.8a8.6 8.6 0 0 1 0-11.6M17.8 6.2a8.6 8.6 0 0 1 0 11.6"/></svg> 3. BRIEFING FROM COMMANDER VORTIQRA</h3>
         <div class="trans" id="transText"></div>
         <p style="font-size:14px"><b style="color:#fff">Real NASA science:</b> the ISS recycles ~93% of its water. Plants grow food and clean air. Giant dishes talk to spacecraft billions of km away. You run all 4 systems.</p>
-        <div style="text-align:center;margin-top:10px"><svg class="floaty" viewBox="0 0 200 64" style="width:200px;height:64px;max-width:100%" role="img" aria-label="Rocket launching"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"><g transform="translate(84,2) scale(1.7)" stroke="#00F0FF"><path d="M12 2.8c2.7 2.2 4.3 5.7 4.3 9.7L12 16.8l-4.3-4.3c0-4 1.6-7.5 4.3-9.7z"/><circle cx="12" cy="9.3" r="1.7"/><path d="M7.7 13.8L4.5 19l3.2-.3M16.3 13.8l3.2 5.2-3.2-.3M10.2 19.6c.5.9 1.1 1.5 1.8 1.9.7-.4 1.3-1 1.8-1.9"/></g><path d="M99 40c-2.5 4.5-2.5 7.5 0 11M107 40c2.5 4.5 2.5 7.5 0 11" stroke="#FFB800"/><path d="M56 18h20M54 30h14M130 22h18M134 34h12" stroke="#9AB3CC" stroke-width="1.2"/><path class="twinkle" d="M38 12v8M34 16h8" stroke="#FFB800"/><path class="twinkle d2" d="M168 10v8M164 14h8" stroke="#00F0FF"/></g></svg></div>
+        <div style="text-align:center;margin-top:10px"><svg class="floaty" viewBox="0 0 200 64" style="width:200px;height:64px;max-width:100%" role="img" aria-label="Rocket launching"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"><g transform="translate(84,2) scale(1.7)" stroke="#2A6DF4"><path d="M12 2.8c2.7 2.2 4.3 5.7 4.3 9.7L12 16.8l-4.3-4.3c0-4 1.6-7.5 4.3-9.7z"/><circle cx="12" cy="9.3" r="1.7"/><path d="M7.7 13.8L4.5 19l3.2-.3M16.3 13.8l3.2 5.2-3.2-.3M10.2 19.6c.5.9 1.1 1.5 1.8 1.9.7-.4 1.3-1 1.8-1.9"/></g><path d="M99 40c-2.5 4.5-2.5 7.5 0 11M107 40c2.5 4.5 2.5 7.5 0 11" stroke="#FFD25E"/><path d="M56 18h20M54 30h14M130 22h18M134 34h12" stroke="#9FB0D8" stroke-width="1.2"/><path class="twinkle" d="M38 12v8M34 16h8" stroke="#FFD25E"/><path class="twinkle d2" d="M168 10v8M164 14h8" stroke="#2A6DF4"/></g></svg></div>
         <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost" data-goto="command">Open Command Center →</button></div>
       </div>
     </div>
@@ -270,10 +275,10 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;
 
   <!-- MODULE 2 -->
   <section class="section" id="sec-command">
-    <div class="glass" style="margin-bottom:10px"><div class="radarRow"><div><h3><svg class="ic" viewBox="0 0 24 24"><path d="M5 19a9 9 0 1 1 14 0"/><path d="M12 14l4-5"/><circle cx="12" cy="14" r="1.4"/></svg> OUTPOST COMMAND CENTER</h3><p>Get all 4 systems green. Each one earns <b style="color:var(--cyan)">+40 XP</b>. Targets are on each card.</p></div><div class="radar" role="img" aria-label="Radar sweep"><span class="blip" style="top:22%;left:60%"></span><span class="blip" style="top:58%;left:30%;animation-delay:.9s"></span></div></div></div>
-    <div class="glass" style="margin-bottom:10px">
+    <div class="glass" style="margin-bottom:16px"><div class="radarRow"><div><h3><svg class="ic" viewBox="0 0 24 24"><path d="M5 19a9 9 0 1 1 14 0"/><path d="M12 14l4-5"/><circle cx="12" cy="14" r="1.4"/></svg> OUTPOST COMMAND CENTER</h3><p>Get all 4 systems green. Each one earns <b style="color:var(--sky)">+40 XP</b>. Targets are on each card.</p></div><div class="radar" role="img" aria-label="Radar sweep"><span class="blip" style="top:22%;left:60%"></span><span class="blip" style="top:58%;left:30%;animation-delay:.9s"></span></div></div></div>
+    <div class="glass" style="margin-bottom:16px">
       <h3><svg class="ic" viewBox="0 0 24 24"><path d="M5 19a9 9 0 1 1 14 0"/><path d="M12 14l4-5"/><circle cx="12" cy="14" r="1.4"/></svg> LIVE RESOURCES — 5 TO WATCH</h3>
-      <p>Destination: <b id="dashDest" style="color:var(--cyan)">MOON — ARTEMIS OUTPOST</b>. They change as you play. Keep every one above 20%.</p>
+      <p>Destination: <b id="dashDest" style="color:var(--sky)">MOON — ARTEMIS OUTPOST</b>. They change as you play. Keep every one above 20%.</p>
       <div style="display:grid;gap:10px;margin-top:10px">
         <div><div style="display:flex;justify-content:space-between"><span><svg class="ic" viewBox="0 0 24 24"><path d="M3 8h8.5a2.8 2.8 0 1 0-2.8-2.8M2.5 12.5h13.5a2.8 2.8 0 1 1-2.8 2.8M3.5 17h5"/></svg> Oxygen</span><b id="resVal-o2">85%</b></div><div class="meter"><i id="resBar-o2" style="width:85%"></i></div></div>
         <div><div style="display:flex;justify-content:space-between"><span><svg class="ic" viewBox="0 0 24 24"><path d="M12 3.5c3.2 3.9 6 7.3 6 10.3a6 6 0 1 1-12 0c0-3 2.8-6.4 6-10.3z"/></svg> Water</span><b id="resVal-water">70%</b></div><div class="meter"><i id="resBar-water" style="width:70%"></i></div></div>
@@ -311,7 +316,7 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;
         <div class="sliderRow"><div class="top"><span>LED Light</span><b><span id="vLED">40</span>%</b></div><input type="range" id="sLED" min="0" max="100" value="40"></div>
         <div class="sliderRow"><div class="top"><span>Water pH</span><b><span id="vPH">7.0</span></b></div><input type="range" id="sPH" min="40" max="90" value="70"></div>
         <div class="sliderRow"><div class="top"><span>Nutrients</span><b><span id="vNut">30</span>%</b></div><input type="range" id="sNut" min="0" max="100" value="30"></div>
-        <div style="text-align:center;color:#9AB3CC" id="plantEmoji"></div>
+        <div style="text-align:center;color:#9FB0D8" id="plantEmoji"></div>
         <div class="meter"><i id="plantBar" style="width:25%"></i></div>
         <div class="status warn" id="plantStatus">Seedlings are struggling. Fix light, pH and food.</div>
         <button class="btn" style="margin-top:10px;width:100%" id="plantBtn">Check My Harvest</button>
@@ -319,7 +324,7 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;
       <!-- DSN -->
       <div class="glass">
         <h3><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.6"/><path d="M8.6 15.4a4.8 4.8 0 0 1 0-6.8M15.4 8.6a4.8 4.8 0 0 1 0 6.8M6.2 17.8a8.6 8.6 0 0 1 0-11.6M17.8 6.2a8.6 8.6 0 0 1 0 11.6"/></svg> 4. DEEP SPACE COMMUNICATIONS</h3><p>Giant dishes in California, Spain and Australia listen for us. <b style="color:#fff">Lock: Freq 42 • Angle 68 • Gain 75.</b></p>
-        <div style="text-align:center;margin:6px 0 2px"><svg viewBox="0 0 220 84" style="width:220px;height:84px;max-width:100%" role="img" aria-label="Deep space dish receiving a signal from a satellite"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"><path d="M30 66 Q 58 18 108 34" stroke="#00F0FF"/><path d="M108 34 L 86 58 M86 58 L 62 68" stroke="#00F0FF"/><circle cx="86" cy="58" r="2.6" stroke="#FFB800"/><path d="M62 68 L62 80 M50 80 H74 M14 80 H96" stroke="#9AB3CC" stroke-width="1.4"/><g transform="translate(158,8) scale(1.3)" stroke="#00F0FF" stroke-width="1.6"><rect x="10" y="10" width="4.5" height="4.5" rx="1"/><path d="M10 11L3.5 8.5l1.8-3.4L11 7.5M14 13l6.5 2.5-1.8 3.4L13 16.5"/><path d="M12.2 14.5l-.7 3"/></g><circle class="ping" cx="173" cy="24" r="10" stroke="#00F0FF" stroke-width="1.2"/><circle class="ping d2" cx="173" cy="24" r="10" stroke="#00F0FF" stroke-width="1.2"/><circle class="ping d3" cx="173" cy="24" r="10" stroke="#FFB800" stroke-width="1.2"/></g></svg></div>
+        <div style="text-align:center;margin:6px 0 2px"><svg viewBox="0 0 220 84" style="width:220px;height:84px;max-width:100%" role="img" aria-label="Deep space dish receiving a signal from a satellite"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"><path d="M30 66 Q 58 18 108 34" stroke="#2A6DF4"/><path d="M108 34 L 86 58 M86 58 L 62 68" stroke="#2A6DF4"/><circle cx="86" cy="58" r="2.6" stroke="#FFD25E"/><path d="M62 68 L62 80 M50 80 H74 M14 80 H96" stroke="#9FB0D8" stroke-width="1.4"/><g transform="translate(158,8) scale(1.3)" stroke="#2A6DF4" stroke-width="1.6"><rect x="10" y="10" width="4.5" height="4.5" rx="1"/><path d="M10 11L3.5 8.5l1.8-3.4L11 7.5M14 13l6.5 2.5-1.8 3.4L13 16.5"/><path d="M12.2 14.5l-.7 3"/></g><circle class="ping" cx="173" cy="24" r="10" stroke="#2A6DF4" stroke-width="1.2"/><circle class="ping d2" cx="173" cy="24" r="10" stroke="#2A6DF4" stroke-width="1.2"/><circle class="ping d3" cx="173" cy="24" r="10" stroke="#FFD25E" stroke-width="1.2"/></g></svg></div>
         
         <div class="sliderRow"><div class="top"><span>Frequency (GHz ×10)</span><b><span id="vFreq">20</span></b></div><input type="range" id="sFreq" min="0" max="100" value="20"></div>
         <div class="sliderRow"><div class="top"><span>Dish Angle</span><b><span id="vAngle">30</span>°</b></div><input type="range" id="sAngle" min="0" max="100" value="30"></div>
@@ -331,7 +336,7 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;
     </div>
     <div class="glass" style="margin-top:10px">
       <h3><svg class="ic" viewBox="0 0 24 24"><path d="M10 3h4M10.5 3v5.2L5.6 17a2.3 2.3 0 0 0 2 3.4h8.8a2.3 2.3 0 0 0 2-3.4L13.5 8.2V3"/><path d="M8.2 14.5h7.6"/></svg> MISSION DECISIONS</h3>
-      <p>Pick <b style="color:#fff">A, B or C</b>. See what happens to your 5 resources. First answers earn <b style="color:var(--cyan)">+15 XP</b>.</p>
+      <p>Pick <b style="color:#fff">A, B or C</b>. See what happens to your 5 resources. First answers earn <b style="color:var(--sky)">+15 XP</b>.</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0"><button class="btn" id="eventBtn"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3.5L2.8 19.5h18.4z"/><path d="M12 10v4.2M12 17.3v.2"/></svg> Start a Random Event</button><span class="pill" id="decCount">Decisions: 0 • Events: 0</span></div>
       <h4 id="decTitle" style="font-family:Orbitron;margin:10px 0 4px;font-size:16px;letter-spacing:.03em"></h4>
       <p id="decDesc" style="margin:0"></p>
@@ -343,9 +348,9 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;
 
   <!-- MODULE 3 -->
   <section class="section" id="sec-crisis">
-    <div class="glass" style="border-color:rgba(255,59,92,.5)">
+    <div class="glass" style="border-color:rgba(255,61,33,.5)">
       <h3><svg class="ic" viewBox="0 0 24 24"><path d="M12 3.5L2.8 19.5h18.4z"/><path d="M12 10v4.2M12 17.3v.2"/></svg> RED ALERT — CRISIS TRAINING</h3>
-      <p>Real NASA emergency drills. <b style="color:#fff">60 seconds</b> each. Pick the right steps in order. Survive 1 crisis to unlock your certificate. <b style="color:var(--cyan)">+75 XP</b>.</p>
+      <p>Real NASA emergency drills. <b style="color:#fff">60 seconds</b> each. Pick the right steps in order. Survive 1 crisis to unlock your certificate. <b style="color:var(--sky)">+75 XP</b>.</p>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0" id="crisisCards">
         <button class="btn ghost crisisPick" data-crisis="flare"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.5 5.5l1.4 1.4M17.1 17.1l1.4 1.4M18.5 5.5l-1.4 1.4M6.9 17.1l-1.4 1.4"/></svg> Solar Flare<br><small>Radiation spike</small></button>
         <button class="btn ghost crisisPick" data-crisis="breach"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="1.8"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/></svg> Hull Breach<br><small>O₂ leaking fast</small></button>
@@ -355,7 +360,7 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;
       <div id="crisisArea" style="margin-top:10px;display:none">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"><h3 id="crisisTitle" style="margin:0"></h3><span class="pill"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg> <span id="crisisTime">60s</span></span></div>
         <p id="crisisDesc"></p>
-        <div class="meter"><i id="crisisBar" style="width:100%;background:linear-gradient(90deg,#FF3B5C,#FFB800)"></i></div>
+        <div class="meter"><i id="crisisBar" style="width:100%;background:linear-gradient(90deg,#FC3D21,#FFD25E)"></i></div>
         <div id="crisisActions" style="display:grid;gap:8px;margin-top:10px"></div>
         <div class="status warn" id="crisisFeedback">Wrong move = −10 seconds. Choose well.</div>
       </div>
@@ -365,11 +370,11 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;
 
   <!-- MODULE 4 -->
   <section class="section" id="sec-academy">
-    <div class="glass" style="margin-bottom:10px"><h3><svg class="ic" viewBox="0 0 24 24"><path d="M12 4.5L2.5 9 12 13.5 21.5 9z"/><path d="M6.5 11.3v4.2c0 1.4 2.5 2.7 5.5 2.7s5.5-1.3 5.5-2.7v-4.2"/><path d="M21.5 9v5"/></svg> NASA SPACE ACADEMY</h3><p>6 real space facts. Tap a card to flip it. Flip all 6: <b style="color:var(--cyan)">+30 XP</b>.</p></div>
+    <div class="glass" style="margin-bottom:16px"><h3><svg class="ic" viewBox="0 0 24 24"><path d="M12 4.5L2.5 9 12 13.5 21.5 9z"/><path d="M6.5 11.3v4.2c0 1.4 2.5 2.7 5.5 2.7s5.5-1.3 5.5-2.7v-4.2"/><path d="M21.5 9v5"/></svg> NASA SPACE ACADEMY</h3><p>6 real space facts. Tap a card to flip it. Flip all 6: <b style="color:var(--sky)">+30 XP</b>.</p></div>
     <div class="flashgrid" id="flashGrid"></div>
     <div class="glass" style="margin-top:10px">
       <h3><svg class="ic" viewBox="0 0 24 24"><rect x="6" y="5" width="12" height="16" rx="2"/><path d="M9.5 5a2.5 2.5 0 0 1 5 0"/><path d="M9.3 13.5l2 2 3.6-4"/></svg> CERTIFICATION QUIZ — 5 QUESTIONS</h3>
-      <p>Score 4/5 (80%+) to pass. <b style="color:var(--cyan)">+100 XP</b>. Retry any time.</p>
+      <p>Score 4/5 (80%+) to pass. <b style="color:var(--sky)">+100 XP</b>. Retry any time.</p>
       <div id="quizBox"></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px"><button class="btn" id="submitQuiz">Submit My Answers</button><button class="btn ghost" id="resetQuiz">Retry Quiz</button></div>
       <div class="status warn" id="quizResult">Answer all 5, then submit.</div>
@@ -378,11 +383,12 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;
 
   <!-- MODULE 5 -->
   <section class="section" id="sec-cert">
-    <div class="glass noprint" style="margin-bottom:10px"><h3><svg class="ic" viewBox="0 0 24 24"><rect x="6" y="5" width="12" height="16" rx="2"/><path d="M9.5 5a2.5 2.5 0 0 1 5 0"/><path d="M9.3 13.5l2 2 3.6-4"/></svg> FINAL MISSION REPORT</h3><div id="reportBody"></div></div>
-    <div class="glass noprint" style="margin-bottom:10px"><h3><svg class="ic" viewBox="0 0 24 24"><path d="M8 4h8v4.5a4 4 0 0 1-8 0z"/><path d="M8 5.5H4.8A3.3 3.3 0 0 0 8 9.8M16 5.5h3.2A3.3 3.3 0 0 1 16 9.8M12 12.5v3M9 20.5h6M12 15.5l-1.2 5h2.4z"/></svg> YOUR CERTIFICATE</h3><p id="certGate">Unlock: Enlist + survive 1 crisis + pass the quiz (80%+). It shows your name, XP and rank.</p>
+    <div class="glass noprint" style="margin-bottom:16px"><h3><svg class="ic" viewBox="0 0 24 24"><rect x="6" y="5" width="12" height="16" rx="2"/><path d="M9.5 5a2.5 2.5 0 0 1 5 0"/><path d="M9.3 13.5l2 2 3.6-4"/></svg> FINAL MISSION REPORT</h3><div id="reportBody"></div></div>
+    <div class="glass noprint" style="margin-bottom:16px"><h3><svg class="ic" viewBox="0 0 24 24"><path d="M8 4h8v4.5a4 4 0 0 1-8 0z"/><path d="M8 5.5H4.8A3.3 3.3 0 0 0 8 9.8M16 5.5h3.2A3.3 3.3 0 0 1 16 9.8M12 12.5v3M9 20.5h6M12 15.5l-1.2 5h2.4z"/></svg> YOUR CERTIFICATE</h3><p id="certGate">Unlock: Enlist + survive 1 crisis + pass the quiz (80%+). It shows your name, XP and rank.</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="downloadBtn">Download My Certificate (PNG)</button><button class="btn ghost" data-goto="academy">Open NASA Academy →</button></div><p style="font-size:13px">Print the PNG at full size from Photos / Gallery.</p></div>
     <div class="cert" id="certCard">
       <div class="certRocket"><svg viewBox="0 0 24 24"><path d="M12 2.8c2.7 2.2 4.3 5.7 4.3 9.7L12 16.8l-4.3-4.3c0-4 1.6-7.5 4.3-9.7z"/><circle cx="12" cy="9.3" r="1.7"/><path d="M7.7 13.8L4.5 19l3.2-.3M16.3 13.8l3.2 5.2-3.2-.3M10.2 19.6c.5.9 1.1 1.5 1.8 1.9.7-.4 1.3-1 1.8-1.9"/></svg></div>
+      <svg viewBox="0 0 64 64" width="56" height="56" style="display:block;margin:0 auto 4px" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#0B1230"/><path d="M32 10c5 7 5 17 0 26-5-9-5-19 0-26z" fill="#E8ECFF"/><circle cx="32" cy="24" r="3" fill="#2A6DF4"/><path d="M27 32l-4 8 7-3M37 32l4 8-7-3" fill="#FC3D21"/><path d="M32 38c2.5 4 2.5 7 0 10-2.5-3-2.5-6 0-10z" fill="#FFD25E"/></svg>
       <p style="letter-spacing:.25em;font-weight:800;color:#5a6b8a;margin:4px 0">VORTIQRA • TRAIN — LEARN — EXPLORE</p>
       <h2>Junior Outpost Commander Certificate</h2>
       <p>This proudly certifies that</p>
@@ -398,11 +404,11 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;
 
   <!-- MODULE 6: TEAM -->
   <section class="section" id="sec-team">
-    <div class="glass" style="margin-bottom:10px"><h3><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.4"/><path d="M3 20c1-3.4 3-5 6-5s5 1.6 6 5"/><path d="M15.5 5.2a3.4 3.4 0 0 1 0 5.9M17.8 15.4c1.7.8 2.7 2.2 3.2 4.6"/></svg> MEET THE CREW</h3><p>TEAM BEYOND_THE_SKY — Pakistan • Philippines • India. NASA Space Apps Challenge 2026.</p></div>
+    <div class="glass" style="margin-bottom:16px"><h3><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.4"/><path d="M3 20c1-3.4 3-5 6-5s5 1.6 6 5"/><path d="M15.5 5.2a3.4 3.4 0 0 1 0 5.9M17.8 15.4c1.7.8 2.7 2.2 3.2 4.6"/></svg> MEET THE CREW</h3><p>TEAM BEYOND_THE_SKY — Pakistan • Philippines • India. NASA Space Apps Challenge 2026.</p></div>
     <div class="teamgrid" id="teamGrid"></div>
   </section>
 
-  <div class="divider" aria-hidden="true"><svg viewBox="0 0 420 18" fill="none" stroke-linecap="round"><path d="M4 9 H186 M234 9 H416" stroke="rgba(0,240,255,.4)" stroke-width="1.2"/><circle cx="210" cy="9" r="4.5" stroke="#FFB800" stroke-width="1.5"/><ellipse cx="210" cy="9" rx="10" ry="3.4" transform="rotate(-18 210 9)" stroke="#00F0FF" stroke-width="1.2"/></svg></div>
+  <div class="divider" aria-hidden="true"><svg viewBox="0 0 420 18" fill="none" stroke-linecap="round"><path d="M4 9 H186 M234 9 H416" stroke="rgba(42,109,244,.4)" stroke-width="1.2"/><circle cx="210" cy="9" r="4.5" stroke="#FFD25E" stroke-width="1.5"/><ellipse cx="210" cy="9" rx="10" ry="3.4" transform="rotate(-18 210 9)" stroke="#2A6DF4" stroke-width="1.2"/></svg></div>
   <footer>Built by TEAM BEYOND_THE_SKY | NASA Space Apps Challenge 2026<br><span style="font-size:13px">VORTIQRA – Outpost Commander • Train • Learn • Explore • Not affiliated with NASA.</span><br><span style="font-size:13px">Simulated educational telemetry inspired by NASA ISS, Artemis, and Mars data.</span></footer>
 </div>
 <div class="modal" id="shareModal" role="dialog" aria-modal="true" aria-label="Share">
@@ -505,13 +511,13 @@ function render(){
   $("certName").textContent=(S.name||"CADET").toUpperCase(); $("certXP").textContent=S.xp; $("certRank").textContent=rankFor(S.xp); $("certPatch").textContent=S.patch;
   $("certDate").textContent=new Date().toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
   var unlocked=S.enlisted&&S.crisisWon&&S.certified;
-  $("certGate").innerHTML="Unlock: "+(S.enlisted?"✓ Enlisted":"○ Enlist")+" • "+(S.crisisWon?"✓ Crisis survived":"○ Survive 1 crisis")+" • "+(S.certified?"✓ Quiz 80%+":"○ Pass quiz 80%+")+(unlocked?" — <b style='color:#2EEA8B'>CERTIFICATE UNLOCKED! Download it below.</b>":"");
+  $("certGate").innerHTML="Unlock: "+(S.enlisted?"✓ Enlisted":"○ Enlist")+" • "+(S.crisisWon?"✓ Crisis survived":"○ Survive 1 crisis")+" • "+(S.certified?"✓ Quiz 80%+":"○ Pass quiz 80%+")+(unlocked?" — <b style='color:#2ECC71'>CERTIFICATE UNLOCKED! Download it below.</b>":"");
   $("downloadBtn").classList.toggle("locked",!unlocked);
   if(!unlocked){$("downloadBtn").innerHTML=ic("lock")+" Download PNG (locked)";}else{$("downloadBtn").innerHTML=ic("download")+" Download My Certificate (PNG)";}
   $("soundLbl").textContent=S.sound?"Sound ON":"Sound OFF";
   renderReport();
 }
-function renderReport(){ var el=$("reportBody"); if(!el)return; var dc=$("decCount"); if(dc)dc.textContent="Decisions: "+S.decisions.length+" • Events: "+S.eventsDone; var r=S.res; var keys=["o2","water","food","elec","safety"]; var allOk=keys.every(function(k){return r[k]>20;}); var ready=S.decisions.length>0&&S.eventsDone>0; var status=!ready?'<span style="color:#FFB800">IN PROGRESS</span>':(allOk?'<span style="color:#2EEA8B">SUCCESS</span>':'<span style="color:#FF3B5C">CRITICAL / RETRY</span>'); var resHtml=keys.map(function(k){return '<div style="display:flex;justify-content:space-between;gap:10px"><span>'+RESNAMES[k]+'</span><b>'+r[k]+'%</b></div><div class="meter" style="margin:4px 0 10px"><i style="width:'+r[k]+'%"></i></div>';}).join(""); var decHtml=S.decisions.length?S.decisions.map(function(d){return '<div style="padding:6px 0;border-top:1px solid rgba(255,255,255,.08)"><b>'+esc(d.t)+'</b> — chose <b>'+esc(d.c)+'</b> ('+esc(d.v)+')</div>';}).join(""):'<p style="color:var(--muted);margin:0">No decisions yet. Answer a scenario in the Command Center.</p>'; var ach=BADGES.filter(function(b){return S.badges.indexOf(b[0])>=0;}).map(function(b){return b[2];}); el.innerHTML='<div style="display:flex;gap:10px 20px;flex-wrap:wrap;font-weight:700;margin-bottom:10px"><span>Final Mission Score: <b style="color:var(--cyan)">'+S.xp+' XP</b></span><span>Rank: <b style="color:var(--cyan)">'+rankFor(S.xp)+'</b></span><span>Destination: <b style="color:var(--cyan)">'+(S.dest==="mars"?"Mars — Frontier Base":"Moon — Artemis Outpost")+'</b></span><span>Mission Status: '+status+'</span></div>'+resHtml+'<h4 style="font-family:Orbitron;margin:10px 0 4px;font-size:14px">DECISIONS MADE</h4>'+decHtml+'<h4 style="font-family:Orbitron;margin:10px 0 4px;font-size:14px">ACHIEVEMENTS</h4><p style="color:var(--muted);line-height:1.6;margin:0">'+(ach.length?ach.join(" • "):"No achievements yet. Stabilize systems, survive a crisis, pass the quiz.")+'</p>'+(ready?"":'<p style="color:var(--muted);font-size:13px;margin:8px 0 0">Finish 1 decision + 1 event to complete the report. SUCCESS needs all 5 resources above 20%.</p>'); }
+function renderReport(){ var el=$("reportBody"); if(!el)return; var dc=$("decCount"); if(dc)dc.textContent="Decisions: "+S.decisions.length+" • Events: "+S.eventsDone; var r=S.res; var keys=["o2","water","food","elec","safety"]; var allOk=keys.every(function(k){return r[k]>20;}); var ready=S.decisions.length>0&&S.eventsDone>0; var status=!ready?'<span style="color:#FFD25E">IN PROGRESS</span>':(allOk?'<span style="color:#2ECC71">SUCCESS</span>':'<span style="color:#FC3D21">CRITICAL / RETRY</span>'); var resHtml=keys.map(function(k){return '<div style="display:flex;justify-content:space-between;gap:10px"><span>'+RESNAMES[k]+'</span><b>'+r[k]+'%</b></div><div class="meter" style="margin:4px 0 10px"><i style="width:'+r[k]+'%"></i></div>';}).join(""); var decHtml=S.decisions.length?S.decisions.map(function(d){return '<div style="padding:6px 0;border-top:1px solid rgba(255,255,255,.08)"><b>'+esc(d.t)+'</b> — chose <b>'+esc(d.c)+'</b> ('+esc(d.v)+')</div>';}).join(""):'<p style="color:var(--muted);margin:0">No decisions yet. Answer a scenario in the Command Center.</p>'; var ach=BADGES.filter(function(b){return S.badges.indexOf(b[0])>=0;}).map(function(b){return b[2];}); el.innerHTML='<div style="display:flex;gap:10px 20px;flex-wrap:wrap;font-weight:700;margin-bottom:16px"><span>Final Mission Score: <b style="color:var(--sky)">'+S.xp+' XP</b></span><span>Rank: <b style="color:var(--sky)">'+rankFor(S.xp)+'</b></span><span>Destination: <b style="color:var(--sky)">'+(S.dest==="mars"?"Mars — Frontier Base":"Moon — Artemis Outpost")+'</b></span><span>Mission Status: '+status+'</span></div>'+resHtml+'<h4 style="font-family:Orbitron;margin:10px 0 4px;font-size:14px">DECISIONS MADE</h4>'+decHtml+'<h4 style="font-family:Orbitron;margin:10px 0 4px;font-size:14px">ACHIEVEMENTS</h4><p style="color:var(--muted);line-height:1.6;margin:0">'+(ach.length?ach.join(" • "):"No achievements yet. Stabilize systems, survive a crisis, pass the quiz.")+'</p>'+(ready?"":'<p style="color:var(--muted);font-size:13px;margin:8px 0 0">Finish 1 decision + 1 event to complete the report. SUCCESS needs all 5 resources above 20%.</p>'); }
 // ---------- NAV ----------
 function go(tab){ document.querySelectorAll(".section").forEach(function(s){s.classList.remove("active");}); var sec=$("sec-"+tab); sec.classList.add("active"); document.querySelectorAll("#tabs button, #navlinks a").forEach(function(b){b.classList.toggle("active",b.dataset.tab===tab);}); var m=$("tabs"); if(m)m.classList.remove("open"); var mb=$("menuBtn"); if(mb)mb.setAttribute("aria-expanded","false"); sec.scrollIntoView({behavior:"smooth",block:"start"}); }
 document.querySelectorAll("#tabs button").forEach(function(b){b.addEventListener("click",function(){go(b.dataset.tab); beep(520,.08);});});
@@ -521,7 +527,7 @@ document.addEventListener("click",function(e){ var m=$("tabs"); if(m.classList.c
 document.querySelectorAll("[data-goto]").forEach(function(b){b.addEventListener("click",function(){go(b.dataset.goto);});});
 // ---------- STARFIELD ----------
 var cv=$("stars"),ctx=cv.getContext("2d"),stars=[]; function sizeStars(){cv.width=innerWidth;cv.height=innerHeight;stars=[];for(var i=0;i<140;i++)stars.push({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*1.6+.3,s:Math.random()*.3+.05});} sizeStars(); addEventListener("resize",sizeStars); var shoots=[],nextShoot=Date.now()+2500;
-(function loop(){ ctx.clearRect(0,0,cv.width,cv.height); ctx.fillStyle="#fff"; stars.forEach(function(st){ctx.globalAlpha=.4+Math.abs(Math.sin(Date.now()/900*st.s))*0.6;ctx.beginPath();ctx.arc(st.x,st.y,st.r,0,7);ctx.fill(); st.y+=st.s; if(st.y>cv.height)st.y=0;}); ctx.globalAlpha=1; var now=Date.now(); if(now>nextShoot){ nextShoot=now+4000+Math.random()*5000; shoots.push({x:Math.random()*cv.width*.7+cv.width*.15,y:Math.random()*cv.height*.3,vx:6+Math.random()*4,vy:2.5+Math.random()*1.5,life:1}); } shoots=shoots.filter(function(s){return s.life>0;}); shoots.forEach(function(s){ s.x+=s.vx; s.y+=s.vy; s.life-=.02; var g=ctx.createLinearGradient(s.x,s.y,s.x-s.vx*9,s.y-s.vy*9); g.addColorStop(0,"rgba(255,255,255,"+(.9*s.life)+")"); g.addColorStop(1,"rgba(0,240,255,0)"); ctx.strokeStyle=g; ctx.lineWidth=1.6; ctx.beginPath(); ctx.moveTo(s.x,s.y); ctx.lineTo(s.x-s.vx*9,s.y-s.vy*9); ctx.stroke(); }); if(!matchMedia("(prefers-reduced-motion: reduce)").matches) requestAnimationFrame(loop); })();
+(function loop(){ ctx.clearRect(0,0,cv.width,cv.height); ctx.fillStyle="#fff"; stars.forEach(function(st){ctx.globalAlpha=.4+Math.abs(Math.sin(Date.now()/900*st.s))*0.6;ctx.beginPath();ctx.arc(st.x,st.y,st.r,0,7);ctx.fill(); st.y+=st.s; if(st.y>cv.height)st.y=0;}); ctx.globalAlpha=1; var now=Date.now(); if(now>nextShoot){ nextShoot=now+4000+Math.random()*5000; shoots.push({x:Math.random()*cv.width*.7+cv.width*.15,y:Math.random()*cv.height*.3,vx:6+Math.random()*4,vy:2.5+Math.random()*1.5,life:1}); } shoots=shoots.filter(function(s){return s.life>0;}); shoots.forEach(function(s){ s.x+=s.vx; s.y+=s.vy; s.life-=.02; var g=ctx.createLinearGradient(s.x,s.y,s.x-s.vx*9,s.y-s.vy*9); g.addColorStop(0,"rgba(255,255,255,"+(.9*s.life)+")"); g.addColorStop(1,"rgba(42,109,244,0)"); ctx.strokeStyle=g; ctx.lineWidth=1.6; ctx.beginPath(); ctx.moveTo(s.x,s.y); ctx.lineTo(s.x-s.vx*9,s.y-s.vy*9); ctx.stroke(); }); if(!matchMedia("(prefers-reduced-motion: reduce)").matches) requestAnimationFrame(loop); })();
 // ---------- MODULE 1 ----------
 function transmissionFor(d){ if(d==="mars")return "> INCOMING TRANSMISSION ...\n> FROM: COMMANDER VORTIQRA, MARS FRONTIER BASE\n> SIGNAL DELAY: 14 MINUTES (ONE WAY)\n\nWelcome to Mars, Cadet — 225 million km from Earth. This message took 14 minutes to reach you.\n\nMars does not forgive mistakes. Its air is 95% CO₂. Dust storms can hide the sun for weeks. There is no rescue ship.\n\nKeep all 5 resources alive. Recycle every drop. Grow food, guard power, decide like a real commander.\n\nSurvive, learn, earn your certificate. Sol 1 starts now. — Commander VORTIQRA ✦"; return "> INCOMING TRANSMISSION ...\n> FROM: COMMANDER VORTIQRA, ARTEMIS OUTPOST\n\nWelcome aboard, Cadet. You command a real outpost — 384,400 km from Earth, on the Moon.\n\nUp here, nothing is free. Every breath comes from a machine. Every sip of water is recycled. Every watt is precious.\n\nYour mission: run Life Support, Power, Botany and Comms. Keep all 5 resources green. Survive a Red Alert. Pass the quiz.\n\nGood luck. Earth is watching. — Commander VORTIQRA ✦"; }
 var TRANSMISSION=transmissionFor(S.dest);
@@ -553,9 +559,9 @@ $("scenarioStorm").addEventListener("click",function(){setScen(0.2,"Dust Storm",
 evalPow();
 $("powBtn").addEventListener("click",function(){ if(evalPow()){ if(!S.done.power){S.done.power=true; giveBadge("power"); addXP(40,"Power Grid balanced in "+scen.name+"!");} else toast("Power grid already balanced ✓"); } else { toast("Grid not balanced yet — check the hint"); beep(220,.25);} save(); });
 // ---------- BOTANY ----------
-function evalPlant(){ var led=+$("sLED").value, ph=+$("sPH").value/10, nut=+$("sNut").value; $("vLED").textContent=led;$("vPH").textContent=ph.toFixed(1);$("vNut").textContent=nut; var okL=inR(led,60,85), okP=ph>=5.5&&ph<=6.5, okN=inR(nut,50,75); var sc=(okL?34:10)+(okP?33:10)+(okN?33:10); $("plantBar").style.width=sc+"%"; $("plantEmoji").innerHTML=ic("sprout"); $("plantEmoji").style.color=sc>=95?"#2EEA8B":sc>=50?"#00F0FF":"#9AB3CC"; var st=$("plantStatus"); if(sc>=95){st.className="status ok"; st.textContent="✓ THRIVING! Just like NASA's Veggie lab.";} else {st.className="status warn"; st.textContent="Growth "+sc+"% — LED "+(okL?"✓":"needs 60–85")+" • pH "+(okP?"✓":"needs 5.5–6.5")+" • Nutrients "+(okN?"✓":"needs 50–75");} return sc; }
+function evalPlant(){ var led=+$("sLED").value, ph=+$("sPH").value/10, nut=+$("sNut").value; $("vLED").textContent=led;$("vPH").textContent=ph.toFixed(1);$("vNut").textContent=nut; var okL=inR(led,60,85), okP=ph>=5.5&&ph<=6.5, okN=inR(nut,50,75); var sc=(okL?34:10)+(okP?33:10)+(okN?33:10); $("plantBar").style.width=sc+"%"; $("plantEmoji").innerHTML=ic("sprout"); $("plantEmoji").style.color=sc>=95?"#2ECC71":sc>=50?"#2A6DF4":"#9FB0D8"; var st=$("plantStatus"); if(sc>=95){st.className="status ok"; st.textContent="✓ THRIVING! Just like NASA's Veggie lab.";} else {st.className="status warn"; st.textContent="Growth "+sc+"% — LED "+(okL?"✓":"needs 60–85")+" • pH "+(okP?"✓":"needs 5.5–6.5")+" • Nutrients "+(okN?"✓":"needs 50–75");} return sc; }
 ["sLED","sPH","sNut"].forEach(function(id){$(id).addEventListener("input",evalPlant);}); evalPlant();
-$("plantBtn").addEventListener("click",function(){ if(evalPlant()>=95){ if(!S.done.botany){S.done.botany=true; giveBadge("botany"); addXP(40,"Harvest successful — fresh space salad!");} else toast("Crops already thriving ✓"); $("plantEmoji").style.color="#2EEA8B"; } else { toast("Crops not ready — check the hints"); beep(220,.25);} save(); });
+$("plantBtn").addEventListener("click",function(){ if(evalPlant()>=95){ if(!S.done.botany){S.done.botany=true; giveBadge("botany"); addXP(40,"Harvest successful — fresh space salad!");} else toast("Crops already thriving ✓"); $("plantEmoji").style.color="#2ECC71"; } else { toast("Crops not ready — check the hints"); beep(220,.25);} save(); });
 // ---------- DSN ----------
 function evalSig(){ var f=+$("sFreq").value,a=+$("sAngle").value,g=+$("sGain").value; $("vFreq").textContent=f;$("vAngle").textContent=a;$("vGain").textContent=g; var d=(Math.abs(f-42)+Math.abs(a-68)+Math.abs(g-75))/3; var sig=Math.max(2,Math.round(100-d*3.2)); $("sigBar").style.width=sig+"%"; syncMeters(null,null,null,sig); var st=$("sigStatus"); if(sig>=82){st.className="status ok"; st.textContent="✓ SIGNAL LOCKED ("+sig+"%). Transmit now!";} else if(sig>=50){st.className="status warn"; st.textContent="Signal "+sig+"% — close! Fine-tune each slider.";} else {st.className="status bad"; st.textContent="Signal "+sig+"% — static. Hint: Freq 42, Angle 68, Gain 75.";} return sig; }
 ["sFreq","sAngle","sGain"].forEach(function(id){$(id).addEventListener("input",evalSig);}); evalSig();
@@ -563,7 +569,7 @@ $("sigBtn").addEventListener("click",function(){ if(evalSig()>=82){ if(!S.done.c
 // ---------- DESTINATION / LIVE RESOURCES / CONSEQUENCE ENGINE ----------
 var RESNAMES={o2:"Oxygen",water:"Water",food:"Food",elec:"Electricity",safety:"Crew Safety"};
 function clampRes(){ for(var k in S.res){ S.res[k]=Math.max(0,Math.min(100,Math.round(S.res[k]))); } }
-function renderRes(){ ["o2","water","food","elec","safety"].forEach(function(k){ var v=S.res[k]; var bar=$("resBar-"+k),val=$("resVal-"+k); if(!bar||!val)return; bar.style.width=v+"%"; bar.style.background=v<=20?"linear-gradient(90deg,#FF3B5C,#ff7a00)":v<35?"linear-gradient(90deg,#FFB800,#ff7a00)":"linear-gradient(90deg,var(--cyan),var(--green))"; val.textContent=v+"%"; }); var low=["o2","water","food","elec","safety"].filter(function(k){return S.res[k]<35;}); var w=$("resWarn"); if(!w)return; if(low.length){ var crit=low.some(function(k){return S.res[k]<=20;}); w.style.display="block"; w.className="status "+(crit?"bad":"warn"); w.textContent=(crit?"CRITICAL: ":"Warning: ")+low.map(function(k){return RESNAMES[k]+" at "+S.res[k]+"%";}).join(" • ")+(crit?" — at 20% or less, the mission scores CRITICAL. Fix it with the panels.":" — keep all above 20% for a SUCCESS report."); } else { w.style.display="none"; } }
+function renderRes(){ ["o2","water","food","elec","safety"].forEach(function(k){ var v=S.res[k]; var bar=$("resBar-"+k),val=$("resVal-"+k); if(!bar||!val)return; bar.style.width=v+"%"; bar.style.background=v<=20?"linear-gradient(90deg,#FC3D21,#E8A020)":v<35?"linear-gradient(90deg,#FFD25E,#E8A020)":"linear-gradient(90deg,var(--blue),var(--green))"; val.textContent=v+"%"; }); var low=["o2","water","food","elec","safety"].filter(function(k){return S.res[k]<35;}); var w=$("resWarn"); if(!w)return; if(low.length){ var crit=low.some(function(k){return S.res[k]<=20;}); w.style.display="block"; w.className="status "+(crit?"bad":"warn"); w.textContent=(crit?"CRITICAL: ":"Warning: ")+low.map(function(k){return RESNAMES[k]+" at "+S.res[k]+"%";}).join(" • ")+(crit?" — at 20% or less, the mission scores CRITICAL. Fix it with the panels.":" — keep all above 20% for a SUCCESS report."); } else { w.style.display="none"; } }
 function setDest(d,quiet){ S.dest=d; save(); document.querySelectorAll(".destCard").forEach(function(c){ c.classList.toggle("sel",c.dataset.dest===d); }); $("outpostLine").textContent=d==="mars"?"Mars Frontier Base • Sol 14":"Artemis Outpost • Sol 14"; var hd=$("heroDest"); if(hd)hd.textContent=d==="mars"?"MARS BASE.":"LUNAR OUTPOST."; var dl=$("dashDest"); if(dl)dl.textContent=d==="mars"?"MARS — FRONTIER BASE":"MOON — ARTEMIS OUTPOST"; TRANSMISSION=transmissionFor(d); if(!quiet){ typeTrans(); toast(d==="mars"?"Destination: MARS. Briefing updated.":"Destination: MOON. Briefing updated."); } renderRes(); render(); }
 document.querySelectorAll(".destCard").forEach(function(c){ c.addEventListener("click",function(){ if(S.dest!==c.dataset.dest){ setDest(c.dataset.dest,false); beep(540,.08); } }); });
 // Panel sliders dynamically adjust the 5 live resources (delta-based, clamped 0–100)
@@ -607,8 +613,8 @@ function eventsFor(d){ var dust=d==="mars"
   {t:"Leave the crops and hope the dust clears quickly",d:{food:-15},v:"RISKY",why:"Dust storms can last weeks. The 2018 storm ended the Opportunity rover."},
   {t:dust.cText,d:{food:-4,safety:3},v:"SAFE",why:"An early harvest saves part of the crop. Rationing protects the crew."}]}]; }
 var scenIdx=0, curCh=null;
-function showChallenge(item,kind){ curCh={item:item,kind:kind,answered:false}; $("decTitle").textContent=item.title; $("decDesc").textContent=item.desc; var fb=$("decFeedback"); fb.className="status warn"; fb.textContent=kind==="event"?"A random event! Pick A, B or C.":"Pick A, B or C to see what happens."; $("decNext").style.display="none"; $("decOpts").innerHTML=item.opts.map(function(o,i){ return '<button class="btn ghost" data-dopt="'+i+'" style="text-align:left"><b style="color:var(--cyan)">'+("ABC")[i]+"</b> — "+esc(o.t)+'</button>'; }).join(""); document.querySelectorAll("#decOpts button").forEach(function(b){ b.addEventListener("click",function(){ chooseOpt(+b.dataset.dopt); }); }); }
-function chooseOpt(i){ if(!curCh||curCh.answered)return; curCh.answered=true; var o=curCh.item.opts[i]; var chips=[]; for(var k in o.d){ S.res[k]+=o.d[k]; chips.push(RESNAMES[k]+" "+(o.d[k]>0?"+":"−")+Math.abs(o.d[k])+"%"); } clampRes(); if(curCh.kind==="event"){ S.eventsDone++; if(S.eventsDone<=3)addXP(15,"Mission event handled: "+curCh.item.title.replace("EVENT: ","")); } else if(!S.scenDone[curCh.item.title]){ S.scenDone[curCh.item.title]=true; addXP(15,"Scenario decision: "+curCh.item.title.replace("SCENARIO: ","")); } S.decisions.push({t:curCh.item.title,c:("ABC")[i],v:o.v}); if(S.decisions.length>24)S.decisions=S.decisions.slice(-24); var fb=$("decFeedback"); fb.className="status "+(o.v==="OPTIMAL"?"ok":o.v==="SAFE"?"warn":"bad"); fb.innerHTML="<b>"+o.v+" CHOICE</b> — "+o.why+"<br><b>Resource impact:</b> "+(chips.length?chips.join(" • "):"No change"); document.querySelectorAll("#decOpts button").forEach(function(b){ b.disabled=true; if(+b.dataset.dopt===i)b.style.borderColor="var(--cyan)"; }); var nb=$("decNext"); nb.style.display="inline-block"; nb.textContent=curCh.kind==="event"?"← Back to Scenario Deck":"Next Scenario →"; save(); renderRes(); render(); beep(o.v==="RISKY"?200:920,.15); }
+function showChallenge(item,kind){ curCh={item:item,kind:kind,answered:false}; $("decTitle").textContent=item.title; $("decDesc").textContent=item.desc; var fb=$("decFeedback"); fb.className="status warn"; fb.textContent=kind==="event"?"A random event! Pick A, B or C.":"Pick A, B or C to see what happens."; $("decNext").style.display="none"; $("decOpts").innerHTML=item.opts.map(function(o,i){ return '<button class="btn ghost" data-dopt="'+i+'" style="text-align:left"><b style="color:var(--sky)">'+("ABC")[i]+"</b> — "+esc(o.t)+'</button>'; }).join(""); document.querySelectorAll("#decOpts button").forEach(function(b){ b.addEventListener("click",function(){ chooseOpt(+b.dataset.dopt); }); }); }
+function chooseOpt(i){ if(!curCh||curCh.answered)return; curCh.answered=true; var o=curCh.item.opts[i]; var chips=[]; for(var k in o.d){ S.res[k]+=o.d[k]; chips.push(RESNAMES[k]+" "+(o.d[k]>0?"+":"−")+Math.abs(o.d[k])+"%"); } clampRes(); if(curCh.kind==="event"){ S.eventsDone++; if(S.eventsDone<=3)addXP(15,"Mission event handled: "+curCh.item.title.replace("EVENT: ","")); } else if(!S.scenDone[curCh.item.title]){ S.scenDone[curCh.item.title]=true; addXP(15,"Scenario decision: "+curCh.item.title.replace("SCENARIO: ","")); } S.decisions.push({t:curCh.item.title,c:("ABC")[i],v:o.v}); if(S.decisions.length>24)S.decisions=S.decisions.slice(-24); var fb=$("decFeedback"); fb.className="status "+(o.v==="OPTIMAL"?"ok":o.v==="SAFE"?"warn":"bad"); fb.innerHTML="<b>"+o.v+" CHOICE</b> — "+o.why+"<br><b>Resource impact:</b> "+(chips.length?chips.join(" • "):"No change"); document.querySelectorAll("#decOpts button").forEach(function(b){ b.disabled=true; if(+b.dataset.dopt===i)b.style.borderColor="var(--blue)"; }); var nb=$("decNext"); nb.style.display="inline-block"; nb.textContent=curCh.kind==="event"?"← Back to Scenario Deck":"Next Scenario →"; save(); renderRes(); render(); beep(o.v==="RISKY"?200:920,.15); }
 $("decNext").addEventListener("click",function(){ if(curCh&&curCh.kind==="event"){ showChallenge(SCEN[scenIdx%SCEN.length],"scenario"); } else { scenIdx++; showChallenge(SCEN[scenIdx%SCEN.length],"scenario"); } });
 $("eventBtn").addEventListener("click",function(){ var pool=eventsFor(S.dest); showChallenge(pool[Math.floor(Math.random()*pool.length)],"event"); beep(300,.2); $("decTitle").scrollIntoView({behavior:"smooth",block:"center"}); });
 showChallenge(SCEN[0],"scenario");
