@@ -103,6 +103,47 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:28px;padding:18px 0;
 #decOpts button:disabled{opacity:.55;cursor:default;transform:none}
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
 @media print{body{background:#fff}canvas,.orb,.hud,.tabs,.noprint,footer{display:none!important}.section{display:none!important}#sec-cert{display:block!important}.wrap{max-width:100%}}
+/* === VISUAL UPGRADE 2026-11-14: animations + SVG art (inline, self-contained) === */
+@keyframes hudPulse{0%,100%{box-shadow:0 0 0 rgba(0,240,255,0)}50%{box-shadow:0 0 14px rgba(0,240,255,.28)}}
+.hud .stat{animation:hudPulse 3.6s ease-in-out infinite}
+.hud .stat:nth-child(2){animation-delay:.6s}.hud .stat:nth-child(3){animation-delay:1.2s}.hud .stat:nth-child(4){animation-delay:1.8s}.hud .stat:nth-child(5){animation-delay:2.4s}
+@keyframes xpPop{0%{transform:scale(1)}35%{transform:scale(1.18);background:rgba(255,184,0,.25);border-color:var(--amber)}100%{transform:scale(1)}}
+.stat.xpPop{animation:xpPop .5s ease}
+@keyframes badgePop{0%{transform:scale(.6)}55%{transform:scale(1.25)}100%{transform:scale(1)}}
+.badge.pop{animation:badgePop .55s cubic-bezier(.22,1,.36,1)}
+.meter{position:relative}
+.meter i{transition:width .6s cubic-bezier(.22,1,.36,1)}
+.meter::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);transform:translateX(-100%);animation:shimmer 3.2s ease-in-out infinite;pointer-events:none}
+@keyframes shimmer{0%,55%{transform:translateX(-100%)}90%,100%{transform:translateX(100%)}}
+.tabs button:active,.destCard:active,.choice:active,.opts button:active{transform:scale(.97)}
+.reveal-on .glass{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s cubic-bezier(.22,1,.36,1),border-color .25s ease,box-shadow .25s ease}
+.reveal-on .glass.inview{opacity:1;transform:none}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.floaty{animation:floaty 5.5s ease-in-out infinite}
+.heroArt{width:100%;height:auto;max-width:520px;display:block;margin:16px auto 0}
+@keyframes spinSlow{to{transform:rotate(360deg)}}
+.spinSlow{transform-box:fill-box;transform-origin:center;animation:spinSlow 36s linear infinite}
+@keyframes orbitDash{to{stroke-dashoffset:-120}}
+.orbitDash{animation:orbitDash 9s linear infinite}
+@keyframes twinkle{0%,100%{opacity:.25}50%{opacity:1}}
+.twinkle{animation:twinkle 2.4s ease-in-out infinite}
+.twinkle.d2{animation-delay:.8s}.twinkle.d3{animation-delay:1.5s}
+.radarRow{display:flex;gap:14px;align-items:center}
+.radar{width:74px;height:74px;flex:none;border-radius:50%;border:1px solid rgba(0,240,255,.5);background:radial-gradient(circle,rgba(0,240,255,.12),rgba(0,240,255,.02) 70%);position:relative;overflow:hidden}
+.radar::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(0,240,255,.55),transparent 22%);animation:spinSlow 3s linear infinite}
+.radar::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,transparent 58%,rgba(0,240,255,.25) 59%,transparent 60%),radial-gradient(circle,transparent 28%,rgba(0,240,255,.25) 29%,transparent 30%)}
+.radar .blip{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px var(--amber);animation:twinkle 1.8s ease-in-out infinite}
+@media(max-width:560px){.radar{width:58px;height:58px}}
+@keyframes ping{0%{transform:scale(.55);opacity:.9}100%{transform:scale(1.6);opacity:0}}
+.ping{transform-box:fill-box;transform-origin:center;animation:ping 2.2s ease-out infinite}
+.ping.d2{animation-delay:.7s}.ping.d3{animation-delay:1.4s}
+.cert{position:relative}
+.cert::before{content:"";position:absolute;inset:-5px;border-radius:12px;background:linear-gradient(120deg,#00F0FF,#FFB800,#00F0FF,#0066FF);background-size:300% 300%;animation:borderFlow 7s ease infinite;z-index:-1}
+@keyframes borderFlow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.divider{display:flex;justify-content:center;margin:20px 0 4px}
+.divider svg{width:min(420px,80%);height:18px}
+.btn.locked{opacity:.7}
+@media print{.reveal-on .glass{opacity:1!important;transform:none!important}}
 </style>
 </head>
 <body>
@@ -114,7 +155,7 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:28px;padding:18px 0;
     <div class="hudstats">
       <span class="stat"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c1.2-3.4 3.8-5 7-5s5.8 1.6 7 5"/></svg> <span id="hudName">Cadet</span></span>
       <span class="stat">Rank <b id="hudRank">Cadet</b></span>
-      <span class="stat">XP <b id="hudXP">0</b></span>
+      <span class="stat" id="xpChip">XP <b id="hudXP">0</b></span>
       <span class="stat">O₂ <b id="hudO2">92%</b></span>
       <span class="stat">Power <b id="hudPow">84%</b></span>
     </div>
@@ -125,10 +166,36 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:28px;padding:18px 0;
   <div class="hero">
     <div>
       <span class="pill">◆ NASA SPACE APPS CHALLENGE 2026 • JUNIOR ASTRONAUT MISSION TRAINER</span>
-      <h2>COMMAND YOUR<br><span>LUNAR OUTPOST.</span><br>SURVIVE. LEARN. LEAD.</h2>
+      <h2>COMMAND YOUR<br><span id="heroDest">LUNAR OUTPOST.</span><br>SURVIVE. LEARN. LEAD.</h2>
       <p>Welcome to VORTIQRA – Outpost Commander. Balance oxygen, power, food and communications using the same science NASA uses on the International Space Station, the Artemis Moon missions and Mars rovers — then survive a Red Alert and earn your certificate.</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button class="btn" data-goto="briefing">▶ Start Mission Briefing</button><button class="btn amber" data-goto="command">Open Command Center</button><button class="btn ghost" data-goto="academy">NASA Academy →</button></div>
       <p style="font-size:13px">Ages 8–16 • No sign-up • Progress saves on this device • Every control works</p>
+      <svg class="heroArt floaty" viewBox="0 0 520 190" role="img" aria-label="Ringed planet with orbiting satellite and astronaut">
+      <defs><linearGradient id="plg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00F0FF" stop-opacity=".5"/><stop offset="1" stop-color="#0066FF" stop-opacity=".12"/></linearGradient></defs>
+      <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <g stroke="#9AB3CC" stroke-width="1.3">
+      <path class="twinkle" d="M30 26v9M25.5 30.5h9"/>
+      <path class="twinkle d2" d="M296 16v9M291.5 20.5h9"/>
+      <path class="twinkle d3" d="M470 22v9M465.5 26.5h9"/>
+      <path class="twinkle d2" d="M500 118v9M495.5 122.5h9"/>
+      <path class="twinkle" d="M36 148v9M31.5 152.5h9"/>
+      <path class="twinkle d3" d="M252 158v9M247.5 162.5h9"/>
+      </g>
+      <circle cx="120" cy="98" r="82" stroke="#00F0FF" stroke-width="1" stroke-dasharray="3 9" opacity=".55" class="orbitDash"/>
+      <circle cx="120" cy="98" r="54" fill="url(#plg)" stroke="#00F0FF" stroke-width="1.8"/>
+      <path d="M92 82c10 8 22 3 30 12M88 112c12 7 26 2 34 10" stroke="#00F0FF" stroke-width="1.4" opacity=".7"/>
+      <ellipse cx="120" cy="98" rx="94" ry="23" transform="rotate(-18 120 98)" stroke="#FFB800" stroke-width="1.8"/>
+      <g transform="translate(186,26) scale(1.5)" stroke="#00F0FF" stroke-width="1.6"><rect x="10" y="10" width="4.5" height="4.5" rx="1"/><path d="M10 11L3.5 8.5l1.8-3.4L11 7.5M14 13l6.5 2.5-1.8 3.4L13 16.5"/><path d="M12.2 14.5l-.7 3"/></g>
+      <g stroke="#00F0FF" stroke-width="1.7">
+      <circle cx="392" cy="64" r="15"/>
+      <ellipse cx="392" cy="64" rx="9" ry="6" stroke="#FFB800"/>
+      <path d="M392 79v24M392 86l-13 9M392 86l13 9M392 103l-10 15M392 103l10 15"/>
+      <rect x="400" y="82" width="7" height="15" rx="2"/>
+      </g>
+      <path d="M378 122 C 320 152, 230 148, 176 124" stroke="#FFB800" stroke-width="1.2" stroke-dasharray="4 5" opacity=".65"/>
+      <path d="M0 178 Q 260 152 520 178" stroke="#00F0FF" stroke-width="1.2" opacity=".3"/>
+      </g>
+      </svg>
     </div>
     <div class="glass">
       <h3><svg class="ic" viewBox="0 0 24 24"><rect x="10" y="10" width="4.5" height="4.5" rx="1"/><path d="M10 11L3.5 8.5l1.8-3.4L11 7.5M14 13l6.5 2.5-1.8 3.4L13 16.5"/><path d="M12.2 14.5l-.7 3"/></svg> OUTPOST STATUS — LIVE</h3>
@@ -142,6 +209,8 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:28px;padding:18px 0;
       <div class="status ok" id="heroStatus">All systems nominal. Complete the 4 Command Center panels, survive one crisis, and pass the quiz to unlock your certificate.</div>
     </div>
   </div>
+
+  <div class="divider" aria-hidden="true"><svg viewBox="0 0 420 18" fill="none" stroke-linecap="round"><path d="M4 9 H186 M234 9 H416" stroke="rgba(0,240,255,.4)" stroke-width="1.2"/><circle cx="210" cy="9" r="4.5" stroke="#FFB800" stroke-width="1.5"/><ellipse cx="210" cy="9" rx="10" ry="3.4" transform="rotate(-18 210 9)" stroke="#00F0FF" stroke-width="1.2"/></svg></div>
 
   <nav class="tabs" id="tabs">
     <button class="active" data-tab="briefing">1 • Briefing</button>
@@ -188,6 +257,7 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:28px;padding:18px 0;
         <h3><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.6"/><path d="M8.6 15.4a4.8 4.8 0 0 1 0-6.8M15.4 8.6a4.8 4.8 0 0 1 0 6.8M6.2 17.8a8.6 8.6 0 0 1 0-11.6M17.8 6.2a8.6 8.6 0 0 1 0 11.6"/></svg> INCOMING TRANSMISSION — COMMANDER VORTIQRA</h3>
         <div class="trans" id="transText"></div>
         <p style="font-size:14px"><b style="color:#fff">How real NASA science keeps you alive:</b> On the ISS, the ECLSS system recycles about 93% of water and generates oxygen by splitting water with electricity (electrolysis). Solar arrays + batteries power it all. Plants clean air and provide food. The Deep Space Network talks to spacecraft billions of kilometres away. You will run simplified versions of all four systems — for real points.</p>
+        <div style="text-align:center;margin-top:12px"><svg class="floaty" viewBox="0 0 200 64" style="width:200px;height:64px;max-width:100%" role="img" aria-label="Rocket launching"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"><g transform="translate(84,2) scale(1.7)" stroke="#00F0FF"><path d="M12 2.8c2.7 2.2 4.3 5.7 4.3 9.7L12 16.8l-4.3-4.3c0-4 1.6-7.5 4.3-9.7z"/><circle cx="12" cy="9.3" r="1.7"/><path d="M7.7 13.8L4.5 19l3.2-.3M16.3 13.8l3.2 5.2-3.2-.3M10.2 19.6c.5.9 1.1 1.5 1.8 1.9.7-.4 1.3-1 1.8-1.9"/></g><path d="M99 40c-2.5 4.5-2.5 7.5 0 11M107 40c2.5 4.5 2.5 7.5 0 11" stroke="#FFB800"/><path d="M56 18h20M54 30h14M130 22h18M134 34h12" stroke="#9AB3CC" stroke-width="1.2"/><path class="twinkle" d="M38 12v8M34 16h8" stroke="#FFB800"/><path class="twinkle d2" d="M168 10v8M164 14h8" stroke="#00F0FF"/></g></svg></div>
         <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost" data-goto="command">Go to Command Center →</button></div>
       </div>
     </div>
@@ -200,7 +270,7 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:28px;padding:18px 0;
 
   <!-- MODULE 2 -->
   <section class="section" id="sec-command">
-    <div class="glass" style="margin-bottom:16px"><h3><svg class="ic" viewBox="0 0 24 24"><path d="M5 19a9 9 0 1 1 14 0"/><path d="M12 14l4-5"/><circle cx="12" cy="14" r="1.4"/></svg> OUTPOST COMMAND CENTER</h3><p>Goal: bring all 4 systems into the green zone. Each system you stabilize earns <b style="color:var(--amber)">+40 XP</b> and updates the HUD. Targets are shown on every panel — no guessing.</p></div>
+    <div class="glass" style="margin-bottom:16px"><div class="radarRow"><div><h3><svg class="ic" viewBox="0 0 24 24"><path d="M5 19a9 9 0 1 1 14 0"/><path d="M12 14l4-5"/><circle cx="12" cy="14" r="1.4"/></svg> OUTPOST COMMAND CENTER</h3><p>Goal: bring all 4 systems into the green zone. Each system you stabilize earns <b style="color:var(--amber)">+40 XP</b> and updates the HUD. Targets are shown on every panel — no guessing.</p></div><div class="radar" role="img" aria-label="Radar sweep"><span class="blip" style="top:22%;left:60%"></span><span class="blip" style="top:58%;left:30%;animation-delay:.9s"></span></div></div></div>
     <div class="glass" style="margin-bottom:16px">
       <h3><svg class="ic" viewBox="0 0 24 24"><path d="M5 19a9 9 0 1 1 14 0"/><path d="M12 14l4-5"/><circle cx="12" cy="14" r="1.4"/></svg> MISSION CONTROL — LIVE RESOURCES</h3>
       <p>Destination: <b id="dashDest" style="color:var(--amber)">MOON — ARTEMIS LUNAR OUTPOST</b>. These five life-critical resources update in real time as you move the panel sliders below, answer scenario decisions and survive mission events. Keep every resource above 20% — your Final Mission Report depends on it.</p>
@@ -249,6 +319,8 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:28px;padding:18px 0;
       <!-- DSN -->
       <div class="glass">
         <h3><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.6"/><path d="M8.6 15.4a4.8 4.8 0 0 1 0-6.8M15.4 8.6a4.8 4.8 0 0 1 0 6.8M6.2 17.8a8.6 8.6 0 0 1 0-11.6M17.8 6.2a8.6 8.6 0 0 1 0 11.6"/></svg> 4. DEEP SPACE COMMUNICATIONS</h3><p>NASA’s Deep Space Network uses giant dishes in California, Spain and Australia so Earth can always listen. <b style="color:#fff">Secret lock: Frequency 42, Dish Angle 68, Gain 75 (±6 wins).</b></p>
+        <div style="text-align:center;margin:6px 0 2px"><svg viewBox="0 0 220 84" style="width:220px;height:84px;max-width:100%" role="img" aria-label="Deep space dish receiving a signal from a satellite"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"><path d="M30 66 Q 58 18 108 34" stroke="#00F0FF"/><path d="M108 34 L 86 58 M86 58 L 62 68" stroke="#00F0FF"/><circle cx="86" cy="58" r="2.6" stroke="#FFB800"/><path d="M62 68 L62 80 M50 80 H74 M14 80 H96" stroke="#9AB3CC" stroke-width="1.4"/><g transform="translate(158,8) scale(1.3)" stroke="#00F0FF" stroke-width="1.6"><rect x="10" y="10" width="4.5" height="4.5" rx="1"/><path d="M10 11L3.5 8.5l1.8-3.4L11 7.5M14 13l6.5 2.5-1.8 3.4L13 16.5"/><path d="M12.2 14.5l-.7 3"/></g><circle class="ping" cx="173" cy="24" r="10" stroke="#00F0FF" stroke-width="1.2"/><circle class="ping d2" cx="173" cy="24" r="10" stroke="#00F0FF" stroke-width="1.2"/><circle class="ping d3" cx="173" cy="24" r="10" stroke="#FFB800" stroke-width="1.2"/></g></svg></div>
+        
         <div class="sliderRow"><div class="top"><span>Frequency (GHz ×10)</span><b><span id="vFreq">20</span></b></div><input type="range" id="sFreq" min="0" max="100" value="20"></div>
         <div class="sliderRow"><div class="top"><span>Dish Angle</span><b><span id="vAngle">30</span>°</b></div><input type="range" id="sAngle" min="0" max="100" value="30"></div>
         <div class="sliderRow"><div class="top"><span>Signal Gain</span><b><span id="vGain">30</span>%</b></div><input type="range" id="sGain" min="0" max="100" value="30"></div>
@@ -330,6 +402,7 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:28px;padding:18px 0;
     <div class="teamgrid" id="teamGrid"></div>
   </section>
 
+  <div class="divider" aria-hidden="true"><svg viewBox="0 0 420 18" fill="none" stroke-linecap="round"><path d="M4 9 H186 M234 9 H416" stroke="rgba(0,240,255,.4)" stroke-width="1.2"/><circle cx="210" cy="9" r="4.5" stroke="#FFB800" stroke-width="1.5"/><ellipse cx="210" cy="9" rx="10" ry="3.4" transform="rotate(-18 210 9)" stroke="#00F0FF" stroke-width="1.2"/></svg></div>
   <footer>Built by TEAM BEYOND_THE_SKY | NASA Space Apps Challenge 2026<br><span style="font-size:13px">VORTIQRA – Outpost Commander • Train • Learn • Explore • Not affiliated with NASA.</span><br><span style="font-size:13px">Simulated educational telemetry inspired by NASA ISS, Artemis, and Mars data.</span></footer>
 </div>
 <div class="modal" id="shareModal" role="dialog" aria-modal="true" aria-label="Share with Team">
@@ -424,17 +497,18 @@ var AC=null; function beep(f,d){ if(!S.sound) return; try{ AC=AC||new (window.Au
 var toastT; function toast(m){ var t=$("toast"); t.textContent=m; t.style.display="block"; clearTimeout(toastT); toastT=setTimeout(function(){t.style.display="none";},3200); beep(880,.12); }
 // ---------- XP / BADGES ----------
 var BADGES=[["enlisted","medal","Enlisted Cadet"],["eclss","wind","Life Support Pro"],["power","zap","Power Engineer"],["botany","sprout","Space Botanist"],["comms","radio","Comms Locked"],["crisis","shield","Crisis Survivor"],["scholar","book","Academy Scholar"],["certified","trophy","Certified Commander"]];
-function addXP(n,why){ S.xp+=n; toast("+"+n+" XP — "+why); save(); render(); }
-function giveBadge(id){ if(S.badges.indexOf(id)<0){ S.badges.push(id); save(); render(); } }
+function addXP(n,why){ S.xp+=n; toast("+"+n+" XP — "+why); save(); render(); var c=$("xpChip"); if(c){ c.classList.remove("xpPop"); void c.offsetWidth; c.classList.add("xpPop"); setTimeout(function(){ c.classList.remove("xpPop"); },550); } }
+var popBadge=null;
+function giveBadge(id){ if(S.badges.indexOf(id)<0){ S.badges.push(id); popBadge=id; save(); render(); } }
 function render(){
   $("hudName").textContent=(S.name||"Cadet")+" • "+S.avatar;
   $("hudRank").textContent=rankFor(S.xp); $("hudXP").textContent=S.xp;
   $("certName").textContent=(S.name||"CADET").toUpperCase(); $("certXP").textContent=S.xp; $("certRank").textContent=rankFor(S.xp); $("certPatch").textContent=S.patch;
   $("certDate").textContent=new Date().toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
-  $("badgeRow").innerHTML=BADGES.map(function(b){var on=S.badges.indexOf(b[0])>=0; return '<span class="badge'+(on?" on":"")+'">'+(on?ic("check"):ic("lock"))+" "+ic(b[1])+" "+b[2]+"</span>";}).join("");
+  $("badgeRow").innerHTML=BADGES.map(function(b){var on=S.badges.indexOf(b[0])>=0; var pop=(on&&b[0]===popBadge)?" pop":""; return '<span class="badge'+(on?" on":"")+pop+'">'+(on?ic("check"):ic("lock"))+" "+ic(b[1])+" "+b[2]+"</span>";}).join(""); popBadge=null;
   var unlocked=S.enlisted&&S.crisisWon&&S.certified;
   $("certGate").innerHTML="Unlock: "+(S.enlisted?"✓ Enlisted":"○ Enlist")+" • "+(S.crisisWon?"✓ Crisis survived":"○ Survive 1 crisis")+" • "+(S.certified?"✓ Quiz 80%+":"○ Pass quiz 80%+")+(unlocked?" — <b style='color:#2EEA8B'>CERTIFICATE UNLOCKED! Download it below.</b>":"");
-  $("downloadBtn").disabled=!unlocked;
+  $("downloadBtn").classList.toggle("locked",!unlocked);
   if(!unlocked){$("downloadBtn").innerHTML=ic("lock")+" Download PNG (locked)";}else{$("downloadBtn").innerHTML=ic("download")+" Download Certificate (PNG)";}
   $("soundLbl").textContent=S.sound?"Sound ON":"Sound OFF";
   renderReport();
@@ -445,8 +519,8 @@ function go(tab){ document.querySelectorAll(".section").forEach(function(s){s.cl
 document.querySelectorAll("#tabs button").forEach(function(b){b.addEventListener("click",function(){go(b.dataset.tab); beep(520,.08);});});
 document.querySelectorAll("[data-goto]").forEach(function(b){b.addEventListener("click",function(){go(b.dataset.goto);});});
 // ---------- STARFIELD ----------
-var cv=$("stars"),ctx=cv.getContext("2d"),stars=[]; function sizeStars(){cv.width=innerWidth;cv.height=innerHeight;stars=[];for(var i=0;i<140;i++)stars.push({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*1.6+.3,s:Math.random()*.3+.05});} sizeStars(); addEventListener("resize",sizeStars);
-(function loop(){ ctx.clearRect(0,0,cv.width,cv.height); ctx.fillStyle="#fff"; stars.forEach(function(st){ctx.globalAlpha=.4+Math.abs(Math.sin(Date.now()/900*st.s))*0.6;ctx.beginPath();ctx.arc(st.x,st.y,st.r,0,7);ctx.fill(); st.y+=st.s; if(st.y>cv.height)st.y=0;}); ctx.globalAlpha=1; if(!matchMedia("(prefers-reduced-motion: reduce)").matches) requestAnimationFrame(loop); })();
+var cv=$("stars"),ctx=cv.getContext("2d"),stars=[]; function sizeStars(){cv.width=innerWidth;cv.height=innerHeight;stars=[];for(var i=0;i<140;i++)stars.push({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*1.6+.3,s:Math.random()*.3+.05});} sizeStars(); addEventListener("resize",sizeStars); var shoots=[],nextShoot=Date.now()+2500;
+(function loop(){ ctx.clearRect(0,0,cv.width,cv.height); ctx.fillStyle="#fff"; stars.forEach(function(st){ctx.globalAlpha=.4+Math.abs(Math.sin(Date.now()/900*st.s))*0.6;ctx.beginPath();ctx.arc(st.x,st.y,st.r,0,7);ctx.fill(); st.y+=st.s; if(st.y>cv.height)st.y=0;}); ctx.globalAlpha=1; var now=Date.now(); if(now>nextShoot){ nextShoot=now+4000+Math.random()*5000; shoots.push({x:Math.random()*cv.width*.7+cv.width*.15,y:Math.random()*cv.height*.3,vx:6+Math.random()*4,vy:2.5+Math.random()*1.5,life:1}); } shoots=shoots.filter(function(s){return s.life>0;}); shoots.forEach(function(s){ s.x+=s.vx; s.y+=s.vy; s.life-=.02; var g=ctx.createLinearGradient(s.x,s.y,s.x-s.vx*9,s.y-s.vy*9); g.addColorStop(0,"rgba(255,255,255,"+(.9*s.life)+")"); g.addColorStop(1,"rgba(0,240,255,0)"); ctx.strokeStyle=g; ctx.lineWidth=1.6; ctx.beginPath(); ctx.moveTo(s.x,s.y); ctx.lineTo(s.x-s.vx*9,s.y-s.vy*9); ctx.stroke(); }); if(!matchMedia("(prefers-reduced-motion: reduce)").matches) requestAnimationFrame(loop); })();
 // ---------- MODULE 1 ----------
 function transmissionFor(d){ if(d==="mars")return "> INCOMING TRANSMISSION ...\n> FROM: COMMANDER VORTIQRA, MARS FRONTIER BASE\n> SIGNAL DELAY: 14 MINUTES (ONE WAY)\n\nWelcome to Mars, Cadet. You are 225 million km from Earth — so far that this message took 14 minutes to reach you, travelling at the speed of light.\n\nMars does not forgive mistakes. Its air is 95% CO₂ and thinner than a vacuum by Earth standards. Planet-wide dust storms can swallow the sun for weeks. There is no rescue ship.\n\nYour objectives: keep Oxygen, Water, Food, Electricity and Crew Safety alive. Recycle every drop — our water comes from subsurface ice. Grow your food, guard your power, and make decisions like a real mission commander, because Earth cannot joystick you in real time.\n\nSurvive, learn, and earn your certificate. Sol 1 starts now. — Commander VORTIQRA ✦"; return "> INCOMING TRANSMISSION ...\n> FROM: COMMANDER VORTIQRA, ARTEMIS LUNAR OUTPOST\n\nWelcome aboard, Cadet. You are now in charge of a real outpost — 384,400 km from Earth, on the Moon.\n\nUp here, nothing is free. Every breath comes from a machine. Every sip of water has been recycled. Every watt is precious — and when lunar night falls, it lasts 14 Earth days, with temperatures swinging from +120°C to −130°C and abrasive regolith dust on every seal.\n\nYour mission: master Life Support, Power, Botany and Communications. Keep Oxygen, Water, Food, Electricity and Crew Safety in the green. Survive a Red Alert. Pass the Academy quiz.\n\nDo that, and you will earn the title every cadet dreams of — OUTPOST COMMANDER.\n\nGood luck. Earth is watching. — Commander VORTIQRA ✦"; }
 var TRANSMISSION=transmissionFor(S.dest);
@@ -489,7 +563,7 @@ $("sigBtn").addEventListener("click",function(){ if(evalSig()>=82){ if(!S.done.c
 var RESNAMES={o2:"Oxygen",water:"Water",food:"Food",elec:"Electricity",safety:"Crew Safety"};
 function clampRes(){ for(var k in S.res){ S.res[k]=Math.max(0,Math.min(100,Math.round(S.res[k]))); } }
 function renderRes(){ ["o2","water","food","elec","safety"].forEach(function(k){ var v=S.res[k]; var bar=$("resBar-"+k),val=$("resVal-"+k); if(!bar||!val)return; bar.style.width=v+"%"; bar.style.background=v<=20?"linear-gradient(90deg,#FF3B5C,#ff7a00)":v<35?"linear-gradient(90deg,#FFB800,#ff7a00)":"linear-gradient(90deg,var(--cyan),var(--green))"; val.textContent=v+"%"; }); var low=["o2","water","food","elec","safety"].filter(function(k){return S.res[k]<35;}); var w=$("resWarn"); if(!w)return; if(low.length){ var crit=low.some(function(k){return S.res[k]<=20;}); w.style.display="block"; w.className="status "+(crit?"bad":"warn"); w.textContent=(crit?"CRITICAL: ":"Warning: ")+low.map(function(k){return RESNAMES[k]+" at "+S.res[k]+"%";}).join(" • ")+(crit?" — a resource at or below 20% scores the mission CRITICAL / RETRY in the Final Report. Recover it with the panels and wise decisions.":" — keep every resource above 20% to earn a SUCCESS report."); } else { w.style.display="none"; } }
-function setDest(d,quiet){ S.dest=d; save(); document.querySelectorAll(".destCard").forEach(function(c){ c.classList.toggle("sel",c.dataset.dest===d); }); $("outpostLine").textContent=d==="mars"?"Mars Frontier Base • Sol 14":"Artemis Lunar Outpost • Sol 14"; var dl=$("dashDest"); if(dl)dl.textContent=d==="mars"?"MARS — FRONTIER BASE":"MOON — ARTEMIS LUNAR OUTPOST"; TRANSMISSION=transmissionFor(d); if(!quiet){ typeTrans(); toast(d==="mars"?"Destination set: MARS — Frontier Base. Briefing updated.":"Destination set: MOON — Artemis Lunar Outpost. Briefing updated."); } renderRes(); render(); }
+function setDest(d,quiet){ S.dest=d; save(); document.querySelectorAll(".destCard").forEach(function(c){ c.classList.toggle("sel",c.dataset.dest===d); }); $("outpostLine").textContent=d==="mars"?"Mars Frontier Base • Sol 14":"Artemis Lunar Outpost • Sol 14"; var hd=$("heroDest"); if(hd)hd.textContent=d==="mars"?"MARS BASE.":"LUNAR OUTPOST."; var dl=$("dashDest"); if(dl)dl.textContent=d==="mars"?"MARS — FRONTIER BASE":"MOON — ARTEMIS LUNAR OUTPOST"; TRANSMISSION=transmissionFor(d); if(!quiet){ typeTrans(); toast(d==="mars"?"Destination set: MARS — Frontier Base. Briefing updated.":"Destination set: MOON — Artemis Lunar Outpost. Briefing updated."); } renderRes(); render(); }
 document.querySelectorAll(".destCard").forEach(function(c){ c.addEventListener("click",function(){ if(S.dest!==c.dataset.dest){ setDest(c.dataset.dest,false); beep(540,.08); } }); });
 // Panel sliders dynamically adjust the 5 live resources (delta-based, clamped 0–100)
 var resLast={}; function bindRes(id,key,f){ var el=$(id); if(!el)return; resLast[id]=+el.value; el.addEventListener("input",function(){ var v=+el.value; var d=v-resLast[id]; resLast[id]=v; if(d){ S.res[key]=S.res[key]+d*f; clampRes(); renderRes(); save(); } }); }
@@ -555,8 +629,8 @@ var CRISES={
 var curCrisis=null,curKey=null,crisisRun=0,stepIdx=0,timerInt=null,timeLeft=60;
 function startCrisis(key){ curCrisis=CRISES[key]; curKey=key; crisisRun++; stepIdx=0; timeLeft=60; $("crisisArea").style.display="block"; $("crisisDone").style.display="none"; $("crisisTitle").textContent=curCrisis.title; $("crisisDesc").textContent=curCrisis.desc; clearInterval(timerInt); timerInt=setInterval(function(){ timeLeft--; $("crisisTime").textContent=timeLeft+"s"; $("crisisBar").style.width=(timeLeft/60*100)+"%"; syncMeters(Math.max(15,90-(60-timeLeft)),null,null,null); if(timeLeft<=0){ failCrisis("Time's up! In a real emergency, every second counts. Read the step hints and try again — NASA crews drill these procedures hundreds of times."); } },1000); $("crisisTime").textContent="60s"; $("crisisBar").style.width="100%"; showStep(); beep(180,.4); setTimeout(function(){beep(180,.4)},350); }
 function showStep(){ var st=curCrisis.steps[stepIdx]; $("crisisFeedback").className="status warn"; $("crisisFeedback").textContent=st.q+"  (Step "+(stepIdx+1)+" of "+curCrisis.steps.length+")"; $("crisisActions").innerHTML=st.opts.map(function(o,i){return '<button class="btn ghost" data-opt="'+i+'" style="text-align:left">'+o+'</button>';}).join(""); document.querySelectorAll("#crisisActions button").forEach(function(b){ b.addEventListener("click",function(){ var pick=+b.dataset.opt; if(pick===st.correct){ $("crisisFeedback").className="status ok"; $("crisisFeedback").textContent="✓ "+st.why; beep(980,.18); stepIdx++; if(stepIdx>=curCrisis.steps.length){ winCrisis(); } else { var run=crisisRun; setTimeout(function(){ if(run===crisisRun)showStep(); },1400); } } else { timeLeft=Math.max(1,timeLeft-10); $("crisisFeedback").className="status bad"; $("crisisFeedback").textContent="✗ Wrong move — −10 seconds! Think like NASA: protect the crew, protect the air, protect the power. Try again."; beep(200,.3); } }); }); }
-function winCrisis(){ clearInterval(timerInt); $("crisisActions").innerHTML=""; $("crisisFeedback").className="status ok"; $("crisisFeedback").textContent="CRISIS SURVIVED with "+timeLeft+" seconds to spare!"; var d=$("crisisDone"); d.style.display="block"; d.innerHTML="✓ <b>MISSION SAVED!</b> You followed real NASA emergency protocols under pressure. "+(S.crisisWon?"":" +75 XP and the Crisis Survivor badge are yours."); if(!S.crisisWon){ S.crisisWon=true; giveBadge("crisis"); addXP(75,"Crisis survived!"); } syncMeters(92,null,null,null); save(); render(); }
-function failCrisis(msg){ clearInterval(timerInt); timerInt=null; $("crisisActions").innerHTML=""; var rb=document.createElement("button"); rb.className="btn red"; rb.textContent="↻ Try This Crisis Again"; rb.addEventListener("click",function(){ if(curKey)startCrisis(curKey); }); $("crisisActions").appendChild(rb); $("crisisFeedback").className="status bad"; $("crisisFeedback").textContent=msg; syncMeters(92,null,null,null); }
+function winCrisis(){ clearInterval(timerInt); $("crisisActions").innerHTML=""; $("crisisFeedback").className="status ok"; $("crisisFeedback").textContent="CRISIS SURVIVED with "+timeLeft+" seconds to spare!"; var d=$("crisisDone"); d.style.display="block"; d.innerHTML="✓ <b>MISSION SAVED!</b> You followed real NASA emergency protocols under pressure. "+(S.crisisWon?"":" +75 XP and the Crisis Survivor badge are yours."); if(!S.crisisWon){ S.crisisWon=true; giveBadge("crisis"); addXP(75,"Crisis survived!"); } evalECLSS(); save(); render(); }
+function failCrisis(msg){ clearInterval(timerInt); timerInt=null; $("crisisActions").innerHTML=""; var rb=document.createElement("button"); rb.className="btn red"; rb.textContent="↻ Try This Crisis Again"; rb.addEventListener("click",function(){ if(curKey)startCrisis(curKey); }); $("crisisActions").appendChild(rb); $("crisisFeedback").className="status bad"; $("crisisFeedback").textContent=msg; evalECLSS(); }
 document.querySelectorAll(".crisisPick").forEach(function(b){ b.addEventListener("click",function(){ startCrisis(b.dataset.crisis); }); });
 $("triggerBtn").addEventListener("click",function(){ var keys=Object.keys(CRISES); startCrisis(keys[Math.floor(Math.random()*keys.length)]); });
 // ---------- MODULE 4: FLASHCARDS + QUIZ ----------
@@ -582,7 +656,7 @@ drawQuiz();
 $("resetQuiz").addEventListener("click",function(){ answers={}; quizSubmitted=false; drawQuiz(); $("quizResult").className="status warn"; $("quizResult").textContent="Quiz reset — good luck, Cadet!"; });
 $("submitQuiz").addEventListener("click",function(){ if(Object.keys(answers).length<5){ toast("Answer all 5 questions first"); return; } var score=0; QUIZ.forEach(function(q,i){ if(answers[i]===q.a)score++; }); quizSubmitted=true; var r=$("quizResult"); if(score>=4){ r.className="status ok"; r.innerHTML="<b>"+score+"/5 — CERTIFIED!</b> You scored "+(score*20)+"% (80% needed). "+(S.certified?"Badge already yours — great consistency!":" +100 XP and the Certified Outpost Commander badge unlocked!"); if(!S.certified){ S.certified=true; giveBadge("certified"); addXP(100,"Certification Quiz passed "+score+"/5!"); } } else { r.className="status bad"; r.innerHTML="<b>"+score+"/5 ("+(score*20)+"%)</b> — you need 4/5. Review the flashcards above (correct answers are now highlighted in green) and retry. Real astronauts retrain until it's perfect!"; } S.quizBest=Math.max(S.quizBest,score); save(); render(); drawQuiz(); });
 // ---------- MODULE 5: CERTIFICATE ----------
-$("downloadBtn").addEventListener("click",function(){ var btn=this; btn.textContent="Rendering…"; if(window.html2canvas){ html2canvas($("certCard"),{scale:2,backgroundColor:"#ffffff"}).then(function(canvas){ var a=document.createElement("a"); a.download="VORTIQRA-Certificate-"+(S.name||"Cadet")+".png"; a.href=canvas.toDataURL("image/png"); a.click(); btn.innerHTML=ic("download")+" Download Certificate (PNG)"; toast("Certificate downloaded!"); }).catch(function(){ btn.innerHTML=ic("download")+" Download Certificate (PNG)"; toast("Download blocked in this browser — try again in a moment."); }); } else { btn.innerHTML=ic("download")+" Download Certificate (PNG)"; toast("Image library still loading — try again in a moment."); } });
+$("downloadBtn").addEventListener("click",function(){ var unlocked=S.enlisted&&S.crisisWon&&S.certified; if(!unlocked){ var missing=[]; if(!S.enlisted)missing.push("Enlist"); if(!S.crisisWon)missing.push("survive 1 crisis"); if(!S.certified)missing.push("pass the quiz 80%+"); toast("Certificate locked — still needed: "+missing.join(" • ")); beep(220,.2); return; } var btn=this; btn.textContent="Rendering…"; if(window.html2canvas){ html2canvas($("certCard"),{scale:2,backgroundColor:"#ffffff"}).then(function(canvas){ var a=document.createElement("a"); a.download="VORTIQRA-Certificate-"+(S.name||"Cadet")+".png"; a.href=canvas.toDataURL("image/png"); a.click(); btn.innerHTML=ic("download")+" Download Certificate (PNG)"; toast("Certificate downloaded!"); }).catch(function(){ btn.innerHTML=ic("download")+" Download Certificate (PNG)"; toast("Download blocked in this browser — try again in a moment."); }); } else { btn.innerHTML=ic("download")+" Download Certificate (PNG)"; toast("Image library still loading — try again in a moment."); } });
 // ---------- SOUND / RESET ----------
 $("soundBtn").addEventListener("click",function(){ S.sound=!S.sound; save(); render(); if(S.sound)beep(880,.12); });
 var resetArm=false,resetArmT; $("resetBtn").addEventListener("click",function(){ if(!resetArm){ resetArm=true; $("resetLbl").textContent="Tap again to confirm"; toast("Tap Reset Simulation again to erase all progress and restart the mission from scratch."); clearTimeout(resetArmT); resetArmT=setTimeout(function(){resetArm=false; $("resetLbl").textContent="Reset Simulation";},4000); return; } clearInterval(timerInt); clearInterval(typeTimer); try{localStorage.removeItem(KEY); localStorage.removeItem(QAKEY);}catch(e){} location.reload(); });
@@ -619,6 +693,8 @@ function drawQA(){ $("qaList").innerHTML=QA_ITEMS.map(function(it){ var on=!!QA[
 drawQA();
 $("openQaBtn").addEventListener("click",function(){ openModal("qaModal"); });
 $("qaResetBtn").addEventListener("click",function(){ QA={}; saveQA(); drawQA(); toast("QA checklist cleared."); });
+// Card entrance reveal on scroll (graceful: no JS / no observer = cards visible by default)
+if("IntersectionObserver" in window){ document.body.classList.add("reveal-on"); var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("inview"); io.unobserve(e.target); } }); },{threshold:.12}); document.querySelectorAll(".glass").forEach(function(g){ io.observe(g); }); }
 // init — meters are already synced by the module evaluators above; do not override them with stale defaults
 setDest(S.dest,true);
 renderRes();
