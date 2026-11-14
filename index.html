@@ -14,7 +14,7 @@
 canvas#stars{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
 .orb{position:fixed;border-radius:50%;filter:blur(70px);opacity:.28;z-index:0;pointer-events:none}.orb1{width:420px;height:420px;background:#003cff;top:-120px;right:-80px}.orb2{width:360px;height:360px;background:#002a5c;bottom:-100px;left:-80px}
 a{color:var(--cyan)}button,input,select{font:inherit}button{min-height:44px;cursor:pointer}
-.wrap{position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:8px 12px 20px}
+.wrap{position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:8px 12px;min-height:100vh;display:flex;flex-direction:column}
 .hud{position:sticky;top:8px;z-index:30;background:#070B19;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--line);border-bottom:2px solid rgba(0,240,255,.45);border-radius:12px;padding:6px 10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;box-shadow:0 12px 34px rgba(0,0,0,.55),0 0 30px rgba(0,240,255,.10)}
 .brand{display:flex;gap:8px;align-items:center}.logo{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#00F0FF,#0066FF);display:grid;place-items:center;font-family:Orbitron;font-weight:900;color:#00131a;font-size:16px}
 .brand h1{font-family:Orbitron;font-size:15px;letter-spacing:.08em;margin:0;line-height:1}.brand p{margin:2px 0 0;color:var(--cyan);font-size:10px;letter-spacing:.14em;font-weight:700}
@@ -112,9 +112,11 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;
 .meter::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);transform:translateX(-100%);animation:shimmer 3.2s ease-in-out infinite;pointer-events:none}
 @keyframes shimmer{0%,55%{transform:translateX(-100%)}90%,100%{transform:translateX(100%)}}
 .menu button:active,.destCard:active,.choice:active,.opts button:active{transform:scale(.97)}
+.navlinks{display:none;flex-basis:100%;gap:2px;align-items:center;justify-content:center;flex-wrap:wrap}.navlinks a{color:var(--text);text-decoration:none;font-weight:700;font-size:13px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.05);white-space:nowrap}.navlinks a:hover{color:var(--cyan);border-color:rgba(0,240,255,.5)}.navlinks a.active{color:var(--cyan);background:rgba(0,240,255,.14);border-color:rgba(0,240,255,.55)}
+@media(min-width:901px){.navlinks{display:flex}#menuBtn{display:none}}
+@media(max-width:900px){.navlinks{display:none}}
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
 .floaty{animation:floaty 5.5s ease-in-out infinite}
-.heroArt{width:100%;height:auto;max-width:440px;display:block;margin:10px auto 0}
 @keyframes spinSlow{to{transform:rotate(360deg)}}
 .spinSlow{transform-box:fill-box;transform-origin:center;animation:spinSlow 36s linear infinite}
 @keyframes orbitDash{to{stroke-dashoffset:-120}}
@@ -134,7 +136,7 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;
 .cert{position:relative}
 .cert::before{content:"";position:absolute;inset:-5px;border-radius:12px;background:linear-gradient(120deg,#00F0FF,#0066FF,#00F0FF,#0b3d91);background-size:300% 300%;animation:borderFlow 7s ease infinite;z-index:-1}
 @keyframes borderFlow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-.divider{display:flex;justify-content:center;margin:8px 0 2px}
+.divider{display:flex;justify-content:center;margin:auto 0 2px}
 .divider svg{width:min(420px,80%);height:18px}
 .btn.locked{opacity:.7}
 </style>
@@ -153,6 +155,14 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;
       <span class="stat">Power <b id="hudPow">84%</b></span>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"><button class="iconbtn" id="soundBtn"><svg class="ic" viewBox="0 0 24 24"><path d="M4 9.5v5h3.5L12 19V5L7.5 9.5H4z"/><path d="M15.5 9.3a3.8 3.8 0 0 1 0 5.4M18.2 6.8a7.4 7.4 0 0 1 0 10.4"/></svg> <span id="soundLbl">Sound ON</span></button><button class="iconbtn" id="shareBtn"><svg class="ic" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.6"/><circle cx="17.5" cy="5.5" r="2.6"/><circle cx="17.5" cy="18.5" r="2.6"/><path d="M8.3 10.7l6.9-4M8.3 13.3l6.9 4"/></svg> Share</button><button class="iconbtn" id="resetBtn"><svg class="ic" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 2.6-6.4L3 8"/><path d="M3 3v5h5"/></svg> <span id="resetLbl">Reset</span></button><button class="iconbtn" id="menuBtn" aria-label="Menu" aria-expanded="false"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>
+    <nav class="navlinks" id="navlinks" aria-label="Sections">
+      <a href="#sec-briefing" data-tab="briefing">1 • Briefing</a>
+      <a href="#sec-command" data-tab="command">2 • Command Center</a>
+      <a href="#sec-crisis" data-tab="crisis">3 • Red Alert</a>
+      <a href="#sec-academy" data-tab="academy">4 • NASA Academy</a>
+      <a href="#sec-cert" data-tab="cert">5 • Certificate</a>
+      <a href="#sec-team" data-tab="team">6 • Team Crew</a>
+    </nav>
     <nav class="menu" id="tabs">
       <button class="active" data-tab="briefing">1 • Briefing</button>
       <button data-tab="command">2 • Command Center</button>
@@ -170,32 +180,6 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="btn" data-goto="briefing">Start Briefing</button><button class="btn amber" data-goto="command">Open Command Center</button><button class="btn ghost" data-goto="academy">Open NASA Academy</button></div>
       <div class="howto"><span><b>1</b> Pick Moon or Mars</span><span><b>2</b> Run the 4 systems</span><span><b>3</b> Pass the quiz — get your certificate</span></div>
       <p style="font-size:13px">No sign-up • Progress saves on this device</p>
-      <svg class="heroArt floaty" viewBox="0 0 520 190" role="img" aria-label="Ringed planet with orbiting satellite and astronaut">
-      <defs><linearGradient id="plg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00F0FF" stop-opacity=".5"/><stop offset="1" stop-color="#0066FF" stop-opacity=".12"/></linearGradient></defs>
-      <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <g stroke="#9AB3CC" stroke-width="1.3">
-      <path class="twinkle" d="M30 26v9M25.5 30.5h9"/>
-      <path class="twinkle d2" d="M296 16v9M291.5 20.5h9"/>
-      <path class="twinkle d3" d="M470 22v9M465.5 26.5h9"/>
-      <path class="twinkle d2" d="M500 118v9M495.5 122.5h9"/>
-      <path class="twinkle" d="M36 148v9M31.5 152.5h9"/>
-      <path class="twinkle d3" d="M252 158v9M247.5 162.5h9"/>
-      </g>
-      <circle cx="120" cy="98" r="82" stroke="#00F0FF" stroke-width="1" stroke-dasharray="3 9" opacity=".55" class="orbitDash"/>
-      <circle cx="120" cy="98" r="54" fill="url(#plg)" stroke="#00F0FF" stroke-width="1.8"/>
-      <path d="M92 82c10 8 22 3 30 12M88 112c12 7 26 2 34 10" stroke="#00F0FF" stroke-width="1.4" opacity=".7"/>
-      <ellipse cx="120" cy="98" rx="94" ry="23" transform="rotate(-18 120 98)" stroke="#FFB800" stroke-width="1.8"/>
-      <g transform="translate(186,26) scale(1.5)" stroke="#00F0FF" stroke-width="1.6"><rect x="10" y="10" width="4.5" height="4.5" rx="1"/><path d="M10 11L3.5 8.5l1.8-3.4L11 7.5M14 13l6.5 2.5-1.8 3.4L13 16.5"/><path d="M12.2 14.5l-.7 3"/></g>
-      <g stroke="#00F0FF" stroke-width="1.7">
-      <circle cx="392" cy="64" r="15"/>
-      <ellipse cx="392" cy="64" rx="9" ry="6" stroke="#FFB800"/>
-      <path d="M392 79v24M392 86l-13 9M392 86l13 9M392 103l-10 15M392 103l10 15"/>
-      <rect x="400" y="82" width="7" height="15" rx="2"/>
-      </g>
-      <path d="M378 122 C 320 152, 230 148, 176 124" stroke="#FFB800" stroke-width="1.2" stroke-dasharray="4 5" opacity=".65"/>
-      <path d="M0 178 Q 260 152 520 178" stroke="#00F0FF" stroke-width="1.2" opacity=".3"/>
-      </g>
-      </svg>
     </div>
     <div class="glass">
       <h3><svg class="ic" viewBox="0 0 24 24"><rect x="10" y="10" width="4.5" height="4.5" rx="1"/><path d="M10 11L3.5 8.5l1.8-3.4L11 7.5M14 13l6.5 2.5-1.8 3.4L13 16.5"/><path d="M12.2 14.5l-.7 3"/></svg> OUTPOST STATUS</h3>
@@ -499,8 +483,9 @@ function render(){
 }
 function renderReport(){ var el=$("reportBody"); if(!el)return; var dc=$("decCount"); if(dc)dc.textContent="Decisions: "+S.decisions.length+" • Events: "+S.eventsDone; var r=S.res; var keys=["o2","water","food","elec","safety"]; var allOk=keys.every(function(k){return r[k]>20;}); var ready=S.decisions.length>0&&S.eventsDone>0; var status=!ready?'<span style="color:#FFB800">IN PROGRESS</span>':(allOk?'<span style="color:#2EEA8B">SUCCESS</span>':'<span style="color:#FF3B5C">CRITICAL / RETRY</span>'); var resHtml=keys.map(function(k){return '<div style="display:flex;justify-content:space-between;gap:10px"><span>'+RESNAMES[k]+'</span><b>'+r[k]+'%</b></div><div class="meter" style="margin:4px 0 10px"><i style="width:'+r[k]+'%"></i></div>';}).join(""); var decHtml=S.decisions.length?S.decisions.map(function(d){return '<div style="padding:6px 0;border-top:1px solid rgba(255,255,255,.08)"><b>'+esc(d.t)+'</b> — chose <b>'+esc(d.c)+'</b> ('+esc(d.v)+')</div>';}).join(""):'<p style="color:var(--muted);margin:0">No decisions yet. Answer a scenario in the Command Center.</p>'; var ach=BADGES.filter(function(b){return S.badges.indexOf(b[0])>=0;}).map(function(b){return b[2];}); el.innerHTML='<div style="display:flex;gap:10px 20px;flex-wrap:wrap;font-weight:700;margin-bottom:10px"><span>Final Mission Score: <b style="color:var(--cyan)">'+S.xp+' XP</b></span><span>Rank: <b style="color:var(--cyan)">'+rankFor(S.xp)+'</b></span><span>Destination: <b style="color:var(--cyan)">'+(S.dest==="mars"?"Mars — Frontier Base":"Moon — Artemis Outpost")+'</b></span><span>Mission Status: '+status+'</span></div>'+resHtml+'<h4 style="font-family:Orbitron;margin:10px 0 4px;font-size:14px">DECISIONS MADE</h4>'+decHtml+'<h4 style="font-family:Orbitron;margin:10px 0 4px;font-size:14px">ACHIEVEMENTS</h4><p style="color:var(--muted);line-height:1.6;margin:0">'+(ach.length?ach.join(" • "):"No achievements yet. Stabilize systems, survive a crisis, pass the quiz.")+'</p>'+(ready?"":'<p style="color:var(--muted);font-size:13px;margin:8px 0 0">Finish 1 decision + 1 event to complete the report. SUCCESS needs all 5 resources above 20%.</p>'); }
 // ---------- NAV ----------
-function go(tab){ document.querySelectorAll(".section").forEach(function(s){s.classList.remove("active");}); var sec=$("sec-"+tab); sec.classList.add("active"); document.querySelectorAll("#tabs button").forEach(function(b){b.classList.toggle("active",b.dataset.tab===tab);}); var m=$("tabs"); if(m)m.classList.remove("open"); var mb=$("menuBtn"); if(mb)mb.setAttribute("aria-expanded","false"); sec.scrollIntoView({behavior:"smooth",block:"start"}); }
+function go(tab){ document.querySelectorAll(".section").forEach(function(s){s.classList.remove("active");}); var sec=$("sec-"+tab); sec.classList.add("active"); document.querySelectorAll("#tabs button, #navlinks a").forEach(function(b){b.classList.toggle("active",b.dataset.tab===tab);}); var m=$("tabs"); if(m)m.classList.remove("open"); var mb=$("menuBtn"); if(mb)mb.setAttribute("aria-expanded","false"); sec.scrollIntoView({behavior:"smooth",block:"start"}); }
 document.querySelectorAll("#tabs button").forEach(function(b){b.addEventListener("click",function(){go(b.dataset.tab); beep(520,.08);});});
+document.querySelectorAll("#navlinks a").forEach(function(a){a.addEventListener("click",function(e){e.preventDefault(); go(a.dataset.tab); beep(520,.08);});});
 $("menuBtn").addEventListener("click",function(e){ e.stopPropagation(); var m=$("tabs"); var open=m.classList.toggle("open"); $("menuBtn").setAttribute("aria-expanded",open?"true":"false"); });
 document.addEventListener("click",function(e){ var m=$("tabs"); if(m.classList.contains("open")&&!m.contains(e.target)&&!$("menuBtn").contains(e.target)){ m.classList.remove("open"); $("menuBtn").setAttribute("aria-expanded","false"); } });
 document.querySelectorAll("[data-goto]").forEach(function(b){b.addEventListener("click",function(){go(b.dataset.goto);});});
