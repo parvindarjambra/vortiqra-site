@@ -112,7 +112,7 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;
 .meter::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);transform:translateX(-100%);animation:shimmer 3.2s ease-in-out infinite;pointer-events:none}
 @keyframes shimmer{0%,55%{transform:translateX(-100%)}90%,100%{transform:translateX(100%)}}
 .menu button:active,.destCard:active,.choice:active,.opts button:active{transform:scale(.97)}
-.navlinks{display:none;flex-basis:100%;gap:2px;align-items:center;justify-content:center;flex-wrap:wrap}.navlinks a{color:var(--text);text-decoration:none;font-weight:700;font-size:13px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.05);white-space:nowrap}.navlinks a:hover{color:var(--cyan);border-color:rgba(0,240,255,.5)}.navlinks a.active{color:var(--cyan);background:rgba(0,240,255,.14);border-color:rgba(0,240,255,.55)}
+.navlinks{display:none;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;margin:8px 0 2px}.navlinks a{color:#EAF6FF;text-decoration:none;font-weight:700;font-size:13px;padding:7px 14px;border-radius:999px;border:1px solid rgba(0,240,255,.55);background:rgba(0,240,255,.12);box-shadow:0 2px 10px rgba(0,240,255,.12);white-space:nowrap}.navlinks a:hover{background:rgba(0,240,255,.22);border-color:var(--cyan)}.navlinks a.active{background:linear-gradient(135deg,#00F0FF,#0066FF);color:#00131a;border-color:transparent}
 @media(min-width:901px){.navlinks{display:flex}#menuBtn{display:none}}
 @media(max-width:900px){.navlinks{display:none}}
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
@@ -185,14 +185,6 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;
       <span class="stat">Power <b id="hudPow">84%</b></span>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"><button class="iconbtn" id="soundBtn"><svg class="ic" viewBox="0 0 24 24"><path d="M4 9.5v5h3.5L12 19V5L7.5 9.5H4z"/><path d="M15.5 9.3a3.8 3.8 0 0 1 0 5.4M18.2 6.8a7.4 7.4 0 0 1 0 10.4"/></svg> <span id="soundLbl">Sound ON</span></button><button class="iconbtn" id="shareBtn"><svg class="ic" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.6"/><circle cx="17.5" cy="5.5" r="2.6"/><circle cx="17.5" cy="18.5" r="2.6"/><path d="M8.3 10.7l6.9-4M8.3 13.3l6.9 4"/></svg> Share</button><button class="iconbtn" id="resetBtn"><svg class="ic" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 2.6-6.4L3 8"/><path d="M3 3v5h5"/></svg> <span id="resetLbl">Reset</span></button><button class="iconbtn" id="menuBtn" aria-label="Menu" aria-expanded="false"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>
-    <nav class="navlinks" id="navlinks" aria-label="Sections">
-      <a href="#sec-briefing" data-tab="briefing">1 • Briefing</a>
-      <a href="#sec-command" data-tab="command">2 • Command Center</a>
-      <a href="#sec-crisis" data-tab="crisis">3 • Red Alert</a>
-      <a href="#sec-academy" data-tab="academy">4 • NASA Academy</a>
-      <a href="#sec-cert" data-tab="cert">5 • Certificate</a>
-      <a href="#sec-team" data-tab="team">6 • Team Crew</a>
-    </nav>
     <nav class="menu" id="tabs">
       <button class="active" data-tab="briefing">1 • Briefing</button>
       <button data-tab="command">2 • Command Center</button>
@@ -202,6 +194,14 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;
       <button data-tab="team">6 • Team Crew</button>
     </nav>
   </header>
+  <nav class="navlinks" id="navlinks" aria-label="Sections">
+    <a href="#sec-briefing" data-tab="briefing">1 • Briefing</a>
+    <a href="#sec-command" data-tab="command">2 • Command Center</a>
+    <a href="#sec-crisis" data-tab="crisis">3 • Red Alert</a>
+    <a href="#sec-academy" data-tab="academy">4 • NASA Academy</a>
+    <a href="#sec-cert" data-tab="cert">5 • Certificate</a>
+    <a href="#sec-team" data-tab="team">6 • Team Crew</a>
+  </nav>
   <div class="hero">
     <div>
       <span class="pill">NASA SPACE APPS CHALLENGE 2026 • AGES 8–16</span>
