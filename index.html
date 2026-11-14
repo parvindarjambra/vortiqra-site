@@ -139,6 +139,36 @@ footer{border-top:1px solid rgba(255,255,255,.1);margin-top:14px;padding:10px 0;
 .divider{display:flex;justify-content:center;margin:auto 0 2px}
 .divider svg{width:min(420px,80%);height:18px}
 .btn.locked{opacity:.7}
+/* === PHONE RESPONSIVE 2026-11-14: compact tiles, compressed HUD, tight cards === */
+@media(max-width:600px){
+.wrap{padding:6px 10px}
+.hud{padding:5px 8px;gap:5px}
+.brand .logo{width:26px;height:26px;border-radius:7px;font-size:13px}
+.brand h1{font-size:13px}
+.hudstats{gap:4px}
+.hudstats .stat{font-size:11px;padding:3px 7px}
+.iconbtn{padding:6px 9px;font-size:12px;min-height:36px}
+.hero{gap:8px;padding:8px 0 2px}
+.hero p{font-size:13px}
+.glass{padding:9px 10px}
+.glass h3{font-size:14px}
+.glass::before,.glass::after{width:11px;height:11px}
+.howto span{padding:6px 8px;font-size:12px}
+.choices{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.choice{min-width:0;padding:6px 3px;border-radius:10px}
+.choice .big{line-height:1}
+.choice .big svg{width:22px;height:22px}
+.choice small{font-size:10px;line-height:1.25;display:block}
+.destCard{padding:9px}
+.destCard .dic svg{width:28px;height:28px}
+.destCard h4{font-size:14px}
+.teamgrid{grid-template-columns:repeat(2,1fr)}
+.member .avatar svg{width:30px;height:30px}
+.member h4{font-size:14px}
+.sliderRow{margin:6px 0}
+.status{padding:7px 9px}
+.menu{max-width:calc(100vw - 24px)}
+}
 </style>
 </head>
 <body>
